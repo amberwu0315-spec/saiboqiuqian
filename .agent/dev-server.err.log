@@ -95,3 +95,145 @@ C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts
       at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)
 [2m19:27:10[22m [31m[1m[vite][22m[39m Pre-transform error: Transform failed with 1 error:
 C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts:229:0: ERROR: Unexpected "export"
+[2m22:12:59[22m [31m[1m[vite][22m[39m Pre-transform error: Transform failed with 1 error:
+C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts:606:8: ERROR: The symbol "centerX" has already been declared
+[2m22:12:59[22m [31m[1m[vite][22m[39m Pre-transform error: Transform failed with 1 error:
+C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts:606:8: ERROR: The symbol "centerX" has already been declared
+[2m22:12:59[22m [31m[1m[vite][22m[39m [31mInternal server error: Transform failed with 1 error:
+C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts:606:8: ERROR: The symbol "centerX" has already been declared[39m
+  Plugin: [35mvite:esbuild[39m
+  File: [36mC:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts[39m:606:8
+[33m  
+  [33mThe symbol "centerX" has already been declared[33m
+  604|    ctx.textAlign = "center";
+  605|    ctx.textBaseline = "middle";
+  606|    const centerX = CARD_WIDTH / 2;
+     |          ^
+  607|    ctx.fillStyle = "#0f141f";
+  608|    ctx.font = "700 74px PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif";
+  [39m
+      at failureErrorWithLog (C:\Users\water\Desktop\赛博求签-勉勉强强工作室\node_modules\esbuild\lib\main.js:1472:15)
+      at C:\Users\water\Desktop\赛博求签-勉勉强强工作室\node_modules\esbuild\lib\main.js:755:50
+      at responseCallbacks.<computed> (C:\Users\water\Desktop\赛博求签-勉勉强强工作室\node_modules\esbuild\lib\main.js:622:9)
+      at handleIncomingPacket (C:\Users\water\Desktop\赛博求签-勉勉强强工作室\node_modules\esbuild\lib\main.js:677:12)
+      at Socket.readFromStdout (C:\Users\water\Desktop\赛博求签-勉勉强强工作室\node_modules\esbuild\lib\main.js:600:7)
+      at Socket.emit (node:events:508:28)
+      at addChunk (node:internal/streams/readable:559:12)
+      at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+      at Readable.push (node:internal/streams/readable:390:5)
+      at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)
+[2m22:12:59[22m [31m[1m[vite][22m[39m Pre-transform error: Transform failed with 1 error:
+C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts:606:8: ERROR: The symbol "centerX" has already been declared
+[2m22:55:40[22m [31m[1m[vite][22m[39m Pre-transform error: Transform failed with 9 errors:
+C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts:681:8: ERROR: The symbol "contentTop" has already been declared
+C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts:682:8: ERROR: The symbol "contentBottom" has already been declared
+C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts:683:8: ERROR: The symbol "contentHeight" has already been declared
+C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts:684:8: ERROR: The symbol "maxCardWidth" has already been declared
+C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts:685:8: ERROR: The symbol "maxCardHeight" has already been declared
+...
+[2m22:55:40[22m [31m[1m[vite][22m[39m Pre-transform error: Transform failed with 9 errors:
+C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts:681:8: ERROR: The symbol "contentTop" has already been declared
+C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts:682:8: ERROR: The symbol "contentBottom" has already been declared
+C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts:683:8: ERROR: The symbol "contentHeight" has already been declared
+C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts:684:8: ERROR: The symbol "maxCardWidth" has already been declared
+C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts:685:8: ERROR: The symbol "maxCardHeight" has already been declared
+...
+[2m22:55:40[22m [31m[1m[vite][22m[39m [31mInternal server error: Transform failed with 9 errors:
+C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts:681:8: ERROR: The symbol "contentTop" has already been declared
+C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts:682:8: ERROR: The symbol "contentBottom" has already been declared
+C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts:683:8: ERROR: The symbol "contentHeight" has already been declared
+C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts:684:8: ERROR: The symbol "maxCardWidth" has already been declared
+C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts:685:8: ERROR: The symbol "maxCardHeight" has already been declared
+...[39m
+  Plugin: [35mvite:esbuild[39m
+  File: [36mC:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts[39m:681:8
+[33m  
+  [33mThe symbol "contentTop" has already been declared[33m
+  679|    const gradientBottom = mixRgb(accentRgb, [255, 255, 255], 0.34);
+  680|  
+  681|    const contentTop = 160;
+     |          ^
+  682|    const contentBottom = CARD_HEIGHT - 132;
+  683|    const contentHeight = contentBottom - contentTop;
+  
+  [33mThe symbol "contentBottom" has already been declared[33m
+  680|  
+  681|    const contentTop = 160;
+  682|    const contentBottom = CARD_HEIGHT - 132;
+     |          ^
+  683|    const contentHeight = contentBottom - contentTop;
+  684|    const maxCardWidth = CARD_WIDTH - 64;
+  
+  [33mThe symbol "contentHeight" has already been declared[33m
+  681|    const contentTop = 160;
+  682|    const contentBottom = CARD_HEIGHT - 132;
+  683|    const contentHeight = contentBottom - contentTop;
+     |          ^
+  684|    const maxCardWidth = CARD_WIDTH - 64;
+  685|    const maxCardHeight = contentHeight;
+  
+  [33mThe symbol "maxCardWidth" has already been declared[33m
+  682|    const contentBottom = CARD_HEIGHT - 132;
+  683|    const contentHeight = contentBottom - contentTop;
+  684|    const maxCardWidth = CARD_WIDTH - 64;
+     |          ^
+  685|    const maxCardHeight = contentHeight;
+  686|    const frameRatio = 3 / 4;
+  
+  [33mThe symbol "maxCardHeight" has already been declared[33m
+  683|    const contentHeight = contentBottom - contentTop;
+  684|    const maxCardWidth = CARD_WIDTH - 64;
+  685|    const maxCardHeight = contentHeight;
+     |          ^
+  686|    const frameRatio = 3 / 4;
+  687|    let cardWidth = maxCardWidth;
+  
+  [33mThe symbol "frameRatio" has already been declared[33m
+  684|    const maxCardWidth = CARD_WIDTH - 64;
+  685|    const maxCardHeight = contentHeight;
+  686|    const frameRatio = 3 / 4;
+     |          ^
+  687|    let cardWidth = maxCardWidth;
+  688|    let cardHeight = Math.round(cardWidth / frameRatio);
+  
+  [33mThe symbol "cardWidth" has already been declared[33m
+  685|    const maxCardHeight = contentHeight;
+  686|    const frameRatio = 3 / 4;
+  687|    let cardWidth = maxCardWidth;
+     |        ^
+  688|    let cardHeight = Math.round(cardWidth / frameRatio);
+  689|    if (cardHeight > maxCardHeight) {
+  
+  [33mThe symbol "cardHeight" has already been declared[33m
+  686|    const frameRatio = 3 / 4;
+  687|    let cardWidth = maxCardWidth;
+  688|    let cardHeight = Math.round(cardWidth / frameRatio);
+     |        ^
+  689|    if (cardHeight > maxCardHeight) {
+  690|      cardHeight = maxCardHeight;
+  
+  [33mThe symbol "cardFrame" has already been declared[33m
+  691|      cardWidth = Math.round(cardHeight * frameRatio);
+  692|    }
+  693|    const cardFrame: DrawFrame = {
+     |          ^
+  694|      x: Math.round((CARD_WIDTH - cardWidth) / 2),
+  695|      y: Math.round(contentTop + (contentHeight - cardHeight) / 2),
+  [39m
+      at failureErrorWithLog (C:\Users\water\Desktop\赛博求签-勉勉强强工作室\node_modules\esbuild\lib\main.js:1472:15)
+      at C:\Users\water\Desktop\赛博求签-勉勉强强工作室\node_modules\esbuild\lib\main.js:755:50
+      at responseCallbacks.<computed> (C:\Users\water\Desktop\赛博求签-勉勉强强工作室\node_modules\esbuild\lib\main.js:622:9)
+      at handleIncomingPacket (C:\Users\water\Desktop\赛博求签-勉勉强强工作室\node_modules\esbuild\lib\main.js:677:12)
+      at Socket.readFromStdout (C:\Users\water\Desktop\赛博求签-勉勉强强工作室\node_modules\esbuild\lib\main.js:600:7)
+      at Socket.emit (node:events:508:28)
+      at addChunk (node:internal/streams/readable:559:12)
+      at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+      at Readable.push (node:internal/streams/readable:390:5)
+      at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)
+[2m22:55:40[22m [31m[1m[vite][22m[39m Pre-transform error: Transform failed with 9 errors:
+C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts:681:8: ERROR: The symbol "contentTop" has already been declared
+C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts:682:8: ERROR: The symbol "contentBottom" has already been declared
+C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts:683:8: ERROR: The symbol "contentHeight" has already been declared
+C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts:684:8: ERROR: The symbol "maxCardWidth" has already been declared
+C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts:685:8: ERROR: The symbol "maxCardHeight" has already been declared
+...

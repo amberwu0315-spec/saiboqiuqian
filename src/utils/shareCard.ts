@@ -431,16 +431,6 @@ function roundedRectPath(ctx: CanvasRenderingContext2D, frame: DrawFrame, radius
   ctx.closePath();
 }
 
-function drawImageContain(ctx: CanvasRenderingContext2D, image: CanvasImageSource, frame: DrawFrame): void {
-  const source = image as { width: number; height: number };
-  const scale = Math.min(frame.width / source.width, frame.height / source.height);
-  const drawW = source.width * scale;
-  const drawH = source.height * scale;
-  const drawX = frame.x + (frame.width - drawW) / 2;
-  const drawY = frame.y + (frame.height - drawH) / 2;
-  ctx.drawImage(image, drawX, drawY, drawW, drawH);
-}
-
 function drawImageCover(ctx: CanvasRenderingContext2D, image: CanvasImageSource, frame: DrawFrame): void {
   const source = image as { width: number; height: number };
   const scale = Math.max(frame.width / source.width, frame.height / source.height);
@@ -451,13 +441,14 @@ function drawImageCover(ctx: CanvasRenderingContext2D, image: CanvasImageSource,
   ctx.drawImage(image, drawX, drawY, drawW, drawH);
 }
 
-function colorWithAlpha(hex: string, alpha: number): string {
-  const match = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  if (!match) {
-    return `rgba(144,66,52,${alpha})`;
-  }
-  const [_, r, g, b] = match;
-  return `rgba(${Number.parseInt(r, 16)}, ${Number.parseInt(g, 16)}, ${Number.parseInt(b, 16)}, ${alpha})`;
+function drawImageContain(ctx: CanvasRenderingContext2D, image: CanvasImageSource, frame: DrawFrame): void {
+  const source = image as { width: number; height: number };
+  const scale = Math.min(frame.width / source.width, frame.height / source.height);
+  const drawW = source.width * scale;
+  const drawH = source.height * scale;
+  const drawX = frame.x + (frame.width - drawW) / 2;
+  const drawY = frame.y + (frame.height - drawH) / 2;
+  ctx.drawImage(image, drawX, drawY, drawW, drawH);
 }
 
 function fillRoundedRect(
@@ -488,26 +479,26 @@ function strokeRoundedRect(
   ctx.restore();
 }
 
-function drawRoundedImage(
-  ctx: CanvasRenderingContext2D,
-  image: CanvasImageSource,
-  frame: DrawFrame,
-  radius: number,
-  borderColor: string
-): void {
-  ctx.save();
-  roundedRectPath(ctx, frame, radius);
-  ctx.clip();
-  drawImageContain(ctx, image, frame);
-  ctx.restore();
-  strokeRoundedRect(ctx, frame, radius, borderColor, 2);
+function hexToRgb(hex: string): [number, number, number] | null {
+  const match = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex.trim());
+  if (!match) {
+    return null;
+  }
+  return [Number.parseInt(match[1], 16), Number.parseInt(match[2], 16), Number.parseInt(match[3], 16)];
 }
 
-const EXPORT_BACKGROUND_SOURCES = [
-  "/images/share-bg-caishen.jpg",
-  "/images/share-bg-caishen.png",
-  "/images/share-bg-caishen.webp"
-] as const;
+function mixRgb(base: [number, number, number], target: [number, number, number], weight: number): [number, number, number] {
+  const w = Math.max(0, Math.min(1, weight));
+  return [
+    Math.round(base[0] + (target[0] - base[0]) * w),
+    Math.round(base[1] + (target[1] - base[1]) * w),
+    Math.round(base[2] + (target[2] - base[2]) * w)
+  ];
+}
+
+function rgbToRgba(rgb: [number, number, number], alpha: number): string {
+  return `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${alpha})`;
+}
 
 async function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
@@ -524,21 +515,87 @@ async function loadFirstAvailableImage(sources: readonly string[]): Promise<HTML
     try {
       return await loadImage(source);
     } catch {
-      // Keep trying fallback sources.
+      // Try next source.
     }
   }
   return null;
 }
 
-async function elementToPngBlob(element: HTMLElement, track: Track): Promise<Blob> {
+async function elementToPngBlob(element: HTMLElement, payload: ShareCardPayload): Promise<Blob> {
   const { default: html2canvas } = await import("html2canvas");
-  const snapshot = await html2canvas(element, {
-    backgroundColor: null,
-    scale: Math.max(2, window.devicePixelRatio || 1),
-    useCORS: true,
-    logging: false
-  });
-  const backgroundImage = await loadFirstAvailableImage(EXPORT_BACKGROUND_SOURCES);
+  const captureAttr = "data-share-capture-root";
+  element.setAttribute(captureAttr, "true");
+  let snapshot: HTMLCanvasElement;
+  try {
+    snapshot = await html2canvas(element, {
+      backgroundColor: null,
+      scale: Math.max(2, window.devicePixelRatio || 1),
+      useCORS: true,
+      logging: false,
+      onclone: (doc) => {
+        const clonedRoot = doc.querySelector(`[${captureAttr}="true"]`) as HTMLElement | null;
+        if (!clonedRoot) {
+          return;
+        }
+        clonedRoot.style.background = "transparent";
+        clonedRoot.style.overflow = "hidden";
+        const clonedCard = clonedRoot.firstElementChild as HTMLElement | null;
+        if (clonedCard) {
+          clonedCard.style.background = "transparent";
+          clonedCard.style.backgroundImage = "none";
+          clonedCard.style.boxShadow = "none";
+          clonedCard.style.transform = "scale(1.1)";
+          clonedCard.style.transformOrigin = "top center";
+          clonedCard.style.borderColor = "rgba(255,255,255,0.48)";
+
+          const sectionElements = Array.from(clonedCard.children) as HTMLElement[];
+          const modeEl = sectionElements[0];
+          const titleEl = sectionElements[1];
+          const dateEl = sectionElements[2];
+          const linesEl = sectionElements[3];
+          const footerEl = sectionElements[4];
+
+          if (modeEl) {
+            modeEl.style.color = "rgba(255,255,255,0.82)";
+            modeEl.style.fontSize = "15px";
+            modeEl.style.letterSpacing = "0.03em";
+            modeEl.style.marginTop = "0px";
+          }
+
+          if (titleEl) {
+            titleEl.style.color = "rgba(255,255,255,0.98)";
+            titleEl.style.fontSize = "48px";
+            titleEl.style.fontWeight = "700";
+            titleEl.style.lineHeight = "1.2";
+            titleEl.style.marginTop = "16px";
+          }
+
+          if (dateEl) {
+            dateEl.style.color = "rgba(255,255,255,0.76)";
+            dateEl.style.fontSize = "14px";
+            dateEl.style.marginTop = "10px";
+          }
+
+          if (linesEl) {
+            linesEl.style.color = "rgba(255,255,255,0.94)";
+            linesEl.style.fontSize = "23px";
+            linesEl.style.lineHeight = "1.8";
+            linesEl.style.marginTop = "28px";
+          }
+
+          if (footerEl) {
+            footerEl.style.color = "rgba(255,255,255,0.72)";
+            footerEl.style.fontSize = "13px";
+            footerEl.style.marginTop = "32px";
+            footerEl.style.paddingTop = "16px";
+            footerEl.style.borderTopColor = "rgba(255,255,255,0.35)";
+          }
+        }
+      }
+    });
+  } finally {
+    element.removeAttribute(captureAttr);
+  }
 
   const canvas = document.createElement("canvas");
   canvas.width = CARD_WIDTH;
@@ -549,74 +606,95 @@ async function elementToPngBlob(element: HTMLElement, track: Track): Promise<Blo
     throw new Error("无法创建画布");
   }
 
-  const visual = getTrackVisual(track);
-  const accent = visual.accent;
-  const borderColor = colorWithAlpha(accent, 0.74);
+  const visual = getTrackVisual(payload.track);
+  const backgroundImage = await loadFirstAvailableImage(visual.readyImageSources);
   const fullFrame: DrawFrame = { x: 0, y: 0, width: CARD_WIDTH, height: CARD_HEIGHT };
 
   if (backgroundImage) {
     drawImageCover(ctx, backgroundImage, fullFrame);
   } else {
     const fallbackGradient = ctx.createLinearGradient(0, 0, 0, CARD_HEIGHT);
-    fallbackGradient.addColorStop(0, "#f5eee3");
-    fallbackGradient.addColorStop(1, "#eadcc8");
+    fallbackGradient.addColorStop(0, "#f4e4d5");
+    fallbackGradient.addColorStop(1, "#ead9c5");
     ctx.fillStyle = fallbackGradient;
     ctx.fillRect(0, 0, CARD_WIDTH, CARD_HEIGHT);
   }
 
-  ctx.fillStyle = "rgba(255,248,238,0.18)";
+  ctx.fillStyle = "rgba(255, 251, 245, 0.22)";
   ctx.fillRect(0, 0, CARD_WIDTH, CARD_HEIGHT);
 
-  const topShade = ctx.createLinearGradient(0, 0, 0, 260);
-  topShade.addColorStop(0, "rgba(58,38,22,0.28)");
-  topShade.addColorStop(1, "rgba(58,38,22,0)");
-  ctx.fillStyle = topShade;
-  ctx.fillRect(0, 0, CARD_WIDTH, 260);
-
-  const bottomShade = ctx.createLinearGradient(0, CARD_HEIGHT - 240, 0, CARD_HEIGHT);
-  bottomShade.addColorStop(0, "rgba(58,38,22,0)");
-  bottomShade.addColorStop(1, "rgba(58,38,22,0.24)");
-  ctx.fillStyle = bottomShade;
-  ctx.fillRect(0, CARD_HEIGHT - 240, CARD_WIDTH, 240);
+  const dimOverlay = ctx.createLinearGradient(0, 0, 0, CARD_HEIGHT);
+  dimOverlay.addColorStop(0, "rgba(22, 13, 6, 0.16)");
+  dimOverlay.addColorStop(0.45, "rgba(22, 13, 6, 0.08)");
+  dimOverlay.addColorStop(1, "rgba(22, 13, 6, 0.14)");
+  ctx.fillStyle = dimOverlay;
+  ctx.fillRect(0, 0, CARD_WIDTH, CARD_HEIGHT);
 
   const centerX = CARD_WIDTH / 2;
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.shadowColor = "rgba(20,10,5,0.26)";
-  ctx.shadowBlur = 10;
-  ctx.shadowOffsetY = 2;
-  ctx.fillStyle = "#fff7ed";
-  ctx.font = "700 64px PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif";
-  ctx.fillText("赛博求签", centerX, 104);
-  ctx.shadowColor = "transparent";
 
-  const contentArea: DrawFrame = {
-    x: 74,
-    y: 186,
-    width: CARD_WIDTH - 148,
-    height: CARD_HEIGHT - 186 - 184
-  };
-
-  const source = snapshot as { width: number; height: number };
-  const scale = Math.min(contentArea.width / source.width, contentArea.height / source.height);
-  const cardFrame: DrawFrame = {
-    x: contentArea.x + (contentArea.width - source.width * scale) / 2,
-    y: contentArea.y + (contentArea.height - source.height * scale) / 2,
-    width: source.width * scale,
-    height: source.height * scale
-  };
+  const headerText = "赛博求签（图一乐）";
+  ctx.font = "700 58px PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif";
+  const textWidth = ctx.measureText(headerText).width;
+  const iconGap = 72;
+  const textStartX = centerX - (textWidth + iconGap) / 2 + iconGap;
+  const iconX = textStartX - iconGap;
+  const titleY = 112;
 
   ctx.save();
-  ctx.shadowColor = "rgba(0,0,0,0.22)";
-  ctx.shadowBlur = 18;
-  ctx.shadowOffsetY = 8;
-  fillRoundedRect(ctx, cardFrame, 14, "rgba(255,255,255,0.25)");
+  ctx.textAlign = "left";
+  ctx.fillStyle = "rgba(255, 251, 245, 0.98)";
+  ctx.shadowColor = "rgba(19, 11, 6, 0.42)";
+  ctx.shadowBlur = 8;
+  ctx.shadowOffsetY = 2;
+  ctx.font = "600 56px PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif";
+  ctx.fillText("🐱", iconX, titleY);
+  ctx.font = "700 58px PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif";
+  ctx.fillText(headerText, textStartX, titleY);
   ctx.restore();
-  drawRoundedImage(ctx, snapshot, cardFrame, 14, borderColor);
 
-  ctx.fillStyle = "#fff4e8";
-  ctx.font = "600 32px PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif";
-  ctx.fillText("勉勉强强工作室 出品", centerX, CARD_HEIGHT - 74);
+  const accentRgb = hexToRgb(payload.accent) ?? [227, 121, 112];
+  const gradientTop = mixRgb(accentRgb, [255, 255, 255], 0.72);
+  const gradientMid = mixRgb(accentRgb, [255, 255, 255], 0.56);
+  const gradientBottom = mixRgb(accentRgb, [255, 255, 255], 0.34);
+
+  const contentTop = 160;
+  const contentBottom = CARD_HEIGHT - 132;
+  const contentHeight = contentBottom - contentTop;
+  const maxCardWidth = CARD_WIDTH - 64;
+  const maxCardHeight = contentHeight;
+  const frameRatio = 3 / 4;
+  let cardWidth = maxCardWidth;
+  let cardHeight = Math.round(cardWidth / frameRatio);
+  if (cardHeight > maxCardHeight) {
+    cardHeight = maxCardHeight;
+    cardWidth = Math.round(cardHeight * frameRatio);
+  }
+  const cardFrame: DrawFrame = {
+    x: Math.round((CARD_WIDTH - cardWidth) / 2),
+    y: Math.round(contentTop + (contentHeight - cardHeight) / 2),
+    width: cardWidth,
+    height: cardHeight
+  };
+
+  const contentGradient = ctx.createLinearGradient(0, cardFrame.y, 0, cardFrame.y + cardFrame.height);
+  contentGradient.addColorStop(0, rgbToRgba(gradientTop, 0.9));
+  contentGradient.addColorStop(0.52, rgbToRgba(gradientMid, 0.9));
+  contentGradient.addColorStop(1, rgbToRgba(gradientBottom, 0.9));
+  fillRoundedRect(ctx, cardFrame, 12, contentGradient);
+
+  ctx.save();
+  roundedRectPath(ctx, cardFrame, 12);
+  ctx.clip();
+  drawImageCover(ctx, snapshot, cardFrame);
+  ctx.restore();
+  strokeRoundedRect(ctx, cardFrame, 12, rgbToRgba(mixRgb(accentRgb, [255, 255, 255], 0.5), 0.95), 3);
+
+  ctx.textAlign = "center";
+  ctx.fillStyle = "rgba(255, 246, 236, 0.94)";
+  ctx.font = "400 30px PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif";
+  ctx.fillText("勉勉强强工作室 出品", centerX, CARD_HEIGHT - 66);
 
   return new Promise<Blob>((resolve, reject) => {
     canvas.toBlob((blob) => {
@@ -634,7 +712,7 @@ export async function downloadShareCardPng(payload: ShareCardPayload, theme: The
 
   if (sourceElement) {
     try {
-      pngBlob = await elementToPngBlob(sourceElement, payload.track);
+      pngBlob = await elementToPngBlob(sourceElement, payload);
     } catch {
       const svg = buildShareCardSvg(payload, theme);
       pngBlob = await svgToPngBlob(svg);
