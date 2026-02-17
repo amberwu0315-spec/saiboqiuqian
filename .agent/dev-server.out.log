@@ -1,0 +1,149 @@
+
+> cyber-fortune-mmm-studio@1.0.0 dev
+> vite --host 0.0.0.0 --port 5173
+
+Re-optimizing dependencies because lockfile has changed
+
+  [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m282[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5173[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://172.18.0.1:[1m5173[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.50.74:[1m5173[22m/[39m
+[2m11:42:06[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/types.ts[22m
+[2m11:43:28[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m11:44:44[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m11:46:40[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/types.ts[22m
+[2m11:47:43[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m11:49:35[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m11:50:14[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m11:53:56[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mtailwind.config.js[22m
+[2m12:02:00[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m12:02:10[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m12:04:58[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m12:05:06[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ModePicker.tsx, /src/index.css[22m
+[2m12:05:35[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ReadyPanel.tsx, /src/index.css[22m
+[2m12:05:50[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ShakeStage.tsx, /src/index.css[22m
+[2m12:06:04[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ResultCard.tsx, /src/index.css[22m
+[2m12:15:29[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css, /src/components/ShakeStage.tsx, /src/components/ResultCard.tsx, /src/components/ModePicker.tsx, /src/components/ThemeToggle.tsx, /src/components/ReadyPanel.tsx[22m
+[2m12:15:51[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ModePicker.tsx, /src/index.css[22m
+[2m12:16:41[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ReadyPanel.tsx, /src/index.css[22m
+[2m12:17:10[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ShakeStage.tsx, /src/index.css[22m
+[2m12:17:35[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ResultCard.tsx, /src/index.css[22m
+[2m12:17:59[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ThemeToggle.tsx, /src/index.css[22m
+[2m12:18:14[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m12:18:55[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ReadyPanel.tsx, /src/index.css[22m
+[2m12:19:30[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ResultCard.tsx, /src/index.css[22m
+[2m12:20:11[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ModePicker.tsx, /src/index.css[22m
+[2m12:20:40[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/TubePixel.tsx, /src/index.css[22m
+[2m12:21:06[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/TubeStationery.tsx, /src/index.css[22m
+[2m12:35:37[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ResultCard.tsx, /src/index.css[22m
+[2m12:36:09[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m12:43:11[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/ShareFortuneCard.tsx[22m
+[2m12:44:02[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ShareFortuneCard.tsx, /src/index.css[22m
+[2m12:44:12[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ResultCard.tsx, /src/index.css[22m
+[2m12:47:57[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ShareFortuneCard.tsx, /src/index.css[22m
+[2m12:48:27[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ResultCard.tsx, /src/index.css[22m
+[2m12:48:52[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m12:49:29[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/ShareFortuneCard.tsx[22m
+[2m12:52:32[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m12:53:04[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ModePicker.tsx, /src/index.css[22m
+[2m12:54:13[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ModePicker.tsx, /src/index.css[22m
+[2m12:55:14[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ModePicker.tsx[22m
+[2m12:55:24[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ReadyPanel.tsx, /src/index.css[22m
+[2m12:55:48[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ReadyPanel.tsx[22m
+[2m12:56:13[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ShakeStage.tsx, /src/index.css[22m
+[2m12:56:29[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ShakeStage.tsx[22m
+[2m12:57:09[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ResultCard.tsx, /src/index.css[22m
+[2m12:58:07[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css, /src/components/ResultCard.tsx, /src/components/ThemeToggle.tsx, /src/components/ModePicker.tsx, /src/components/ReadyPanel.tsx, /src/components/ShakeStage.tsx[22m
+[2m12:58:57[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m13:03:45[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css, /src/components/ResultCard.tsx, /src/components/ThemeToggle.tsx, /src/components/ModePicker.tsx, /src/components/ReadyPanel.tsx, /src/components/ShakeStage.tsx[22m
+[2m13:03:52[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ThemeToggle.tsx, /src/index.css[22m
+[2m13:04:07[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ModePicker.tsx, /src/index.css[22m
+[2m13:04:21[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ReadyPanel.tsx, /src/index.css[22m
+[2m13:05:02[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ShakeStage.tsx, /src/index.css[22m
+[2m13:05:28[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ResultCard.tsx, /src/index.css[22m
+[2m13:06:05[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ShareFortuneCard.tsx, /src/index.css[22m
+[2m13:06:11[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/TubeStationery.tsx, /src/index.css[22m
+[2m13:06:28[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/TubeStationery.tsx[22m
+[2m13:06:58[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/ShareFortuneCard.tsx[22m
+[2m13:07:16[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m13:12:45[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m13:13:16[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ModePicker.tsx, /src/index.css[22m
+[2m13:13:35[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ReadyPanel.tsx, /src/index.css[22m
+[2m13:14:41[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ShareFortuneCard.tsx, /src/index.css[22m
+[2m13:17:56[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ReadyPanel.tsx, /src/index.css[22m
+[2m13:20:15[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ModePicker.tsx, /src/index.css[22m
+[2m13:21:27[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ModePicker.tsx, /src/index.css[22m
+[2m13:22:37[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ModePicker.tsx, /src/index.css[22m
+[2m13:25:02[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ReadyPanel.tsx, /src/index.css[22m
+[2m13:25:32[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ReadyPanel.tsx[22m
+[2m13:26:48[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ReadyPanel.tsx[22m
+[2m13:28:25[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ModePicker.tsx, /src/index.css[22m
+[2m13:28:52[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ReadyPanel.tsx, /src/index.css[22m
+[2m13:30:33[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/TubeStationery.tsx, /src/index.css[22m
+[2m13:32:22[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/TubeStationery.tsx[22m
+[2m13:34:33[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/TubeStationery.tsx[22m
+[2m13:34:44[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/TubePixel.tsx, /src/index.css[22m
+[2m14:37:41[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mtailwind.config.js[22m
+[2m14:37:53[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/TubePixel.tsx, /src/index.css[22m
+[2m14:39:13[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/TubePixel.tsx[22m
+[2m14:40:41[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ReadyPanel.tsx, /src/index.css[22m
+[2m14:49:10[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m14:49:56[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m14:55:20[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/ShareFortuneCard.tsx[22m
+[2m14:56:00[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ShareFortuneCard.tsx, /src/index.css[22m
+[2m14:59:18[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css, /src/components/ResultCard.tsx, /src/components/ThemeToggle.tsx, /src/components/ModePicker.tsx, /src/components/ShakeStage.tsx, /src/components/ReadyPanel.tsx[22m
+[2m14:59:36[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m14:59:55[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ModePicker.tsx, /src/index.css[22m
+[2m15:00:30[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ReadyPanel.tsx, /src/index.css[22m
+[2m15:00:50[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ShakeStage.tsx, /src/index.css[22m
+[2m15:01:14[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ResultCard.tsx, /src/index.css[22m
+[2m15:02:23[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/AboutIntentModal.tsx, /src/index.css[22m
+[2m15:02:57[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ThemeToggle.tsx, /src/index.css[22m
+[2m15:09:59[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css, /src/components/ResultCard.tsx, /src/components/ThemeToggle.tsx, /src/components/ModePicker.tsx, /src/components/ShakeStage.tsx, /src/components/ReadyPanel.tsx[22m
+[2m15:10:16[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m15:10:29[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ModePicker.tsx, /src/index.css[22m
+[2m15:10:59[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ReadyPanel.tsx, /src/index.css[22m
+[2m15:11:18[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ResultCard.tsx, /src/index.css[22m
+[2m15:11:49[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ShakeStage.tsx, /src/index.css[22m
+[2m15:12:08[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/AboutIntentModal.tsx, /src/index.css[22m
+[2m15:12:46[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ShareFortuneCard.tsx, /src/index.css[22m
+[2m15:13:37[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/TubeStationery.tsx, /src/index.css[22m
+[2m15:14:09[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/ShareFortuneCard.tsx[22m
+[2m15:28:28[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ShakeStage.tsx, /src/index.css[22m
+[2m15:29:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ModePicker.tsx, /src/index.css[22m
+[2m15:29:49[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ReadyPanel.tsx, /src/index.css[22m
+[2m15:30:35[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ResultCard.tsx, /src/index.css[22m
+[2m15:30:47[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ResultCard.tsx, /src/index.css[22m
+[2m15:31:15[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/AboutIntentModal.tsx, /src/index.css[22m
+[2m15:31:32[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ShareFortuneCard.tsx, /src/index.css[22m
+[2m15:32:18[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ShakeStage.tsx, /src/index.css[22m
+[2m15:36:10[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ShakeStage.tsx, /src/index.css[22m
+[2m15:37:33[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ReadyPanel.tsx, /src/index.css[22m
+[2m15:38:47[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ShakeStage.tsx, /src/index.css[22m
+[2m15:42:46[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ShakeStage.tsx, /src/index.css, /src/components/ReadyPanel.tsx[22m
+[2m15:43:59[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ReadyPanel.tsx, /src/index.css[22m
+[2m15:44:39[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ShakeStage.tsx, /src/index.css[22m
+[2m15:49:23[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ShakeStage.tsx, /src/index.css, /src/components/ReadyPanel.tsx[22m
+[2m15:49:54[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ShakeStage.tsx, /src/index.css[22m
+[2m15:54:39[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ReadyPanel.tsx, /src/index.css[22m
+[2m15:55:04[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ShakeStage.tsx, /src/index.css[22m
+[2m15:55:21[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m16:01:48[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ResultCard.tsx, /src/index.css[22m
+[2m16:02:19[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/ShareFortuneCard.tsx[22m
+[2m16:02:59[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/ShareFortuneCard.tsx[22m
+[2m16:03:18[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/ShareFortuneCard.tsx[22m
+[2m16:04:19[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ShareFortuneCard.tsx, /src/index.css[22m
+[2m16:05:01[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/ShareFortuneCard.tsx[22m
+[2m16:06:03[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ResultCard.tsx, /src/index.css[22m
+[2m16:10:42[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m16:11:47[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css, /src/components/ResultCard.tsx, /src/components/ThemeToggle.tsx, /src/components/ModePicker.tsx, /src/components/ShakeStage.tsx, /src/components/ReadyPanel.tsx[22m
+[2m16:12:25[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ModePicker.tsx, /src/index.css[22m
+[2m16:12:51[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ReadyPanel.tsx, /src/index.css[22m
+[2m16:13:38[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ShakeStage.tsx, /src/index.css[22m
+[2m16:15:07[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ResultCard.tsx, /src/index.css[22m
+[2m16:15:55[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ShareFortuneCard.tsx, /src/index.css[22m
+[2m16:16:33[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ReadyPanel.tsx, /src/index.css[22m
+[2m16:16:56[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/ShareFortuneCard.tsx[22m
+[2m16:16:58[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/ShareFortuneCard.tsx[22m
+[2m16:17:02[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ShakeStage.tsx, /src/index.css[22m
