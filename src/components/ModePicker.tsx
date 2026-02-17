@@ -235,8 +235,8 @@ export default function ModePicker({ theme, onChooseMode }: ModePickerProps) {
         ref={trackRef}
         className="relative flex snap-x snap-mandatory gap-3 overflow-x-auto py-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         style={{
-          paddingLeft: "calc((100% - min(74vw, 340px)) / 2)",
-          paddingRight: "calc((100% - min(74vw, 340px)) / 2)"
+          paddingLeft: "calc((100% - min(72vw, 332px)) / 2)",
+          paddingRight: "calc((100% - min(72vw, 332px)) / 2)"
         }}
         onScroll={handleTrackScroll}
         onPointerDown={markUserInteraction}
@@ -253,11 +253,11 @@ export default function ModePicker({ theme, onChooseMode }: ModePickerProps) {
                 cardRefs.current[index] = element;
               }}
               type="button"
-              className={`relative h-auto w-[74vw] min-w-[252px] max-w-[340px] shrink-0 snap-center overflow-hidden text-left transition-all duration-500 hover:brightness-95 active:translate-y-[1px] md:w-[320px] md:max-w-[360px] ${
+              className={`relative h-auto w-[72vw] min-w-[248px] max-w-[332px] shrink-0 snap-center overflow-hidden text-left transition-all duration-500 hover:brightness-95 active:translate-y-[1px] md:w-[308px] md:max-w-[344px] ${
                 isPixel ? `${t.mono} rounded-[12px] border-[4px]` : "rounded-[12px] border-[4px]"
               } ${isActive ? "scale-[1.01] opacity-100" : "scale-[0.95] opacity-88"}`}
               style={{
-                aspectRatio: "3 / 4",
+                aspectRatio: "2 / 3",
                 background: isRandom ? "linear-gradient(140deg,#65b7ff,#2f6fcc)" : undefined,
                 backgroundColor: isRandom ? undefined : item.accent,
                 borderColor: item.accent
@@ -267,8 +267,8 @@ export default function ModePicker({ theme, onChooseMode }: ModePickerProps) {
               <ModeCardMedia sources={item.imageSources} label={item.modeLabel} isRandom={isRandom} />
               <div className={`absolute inset-0 ${isPixel ? "bg-gradient-to-t from-zinc-950/36 via-zinc-950/8 to-transparent" : "bg-gradient-to-t from-black/24 via-black/5 to-transparent"}`} />
               <div
-                className={`absolute inset-x-0 bottom-0 p-3 ${
-                  isPixel ? "bg-zinc-100/95" : "bg-[#fff6ec]/94"
+                className={`absolute inset-x-0 bottom-0 px-3 py-2 ${
+                  isPixel ? "bg-zinc-100/86" : "bg-[#fff6ec]/84"
                 }`}
               >
                 <span className={`block text-sm font-semibold ${isPixel ? "text-zinc-900" : "text-[#4a392d]"}`}>{item.modeLabel}</span>

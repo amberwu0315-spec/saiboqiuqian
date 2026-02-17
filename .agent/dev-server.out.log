@@ -302,3 +302,14 @@ Re-optimizing dependencies because lockfile has changed
 [2m20:49:10[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
 [2m20:50:15[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
 [2m21:40:47[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m21:44:57[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/ShareFortuneCard.tsx, /src/components/FortuneCardPreview.tsx, /src/components/ResultCard.tsx[22m
+[2m21:45:42[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/ShareFortuneCard.tsx, /src/components/FortuneCardPreview.tsx, /src/components/ResultCard.tsx[22m
+[2m21:46:07[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m21:49:06[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/ShareFortuneCard.tsx, /src/components/FortuneCardPreview.tsx, /src/components/ResultCard.tsx[22m
+[2m21:49:28[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m21:50:57[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ModePicker.tsx, /src/index.css[22m
+[2m21:53:44[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m21:53:55[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/ShareFortuneCard.tsx, /src/components/FortuneCardPreview.tsx, /src/components/ResultCard.tsx[22m
+[2m21:54:25[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/ShareFortuneCard.tsx, /src/components/FortuneCardPreview.tsx, /src/components/ResultCard.tsx[22m
+[2m22:01:22[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/ShareFortuneCard.tsx, /src/components/FortuneCardPreview.tsx, /src/components/ResultCard.tsx[22m
+[2m22:02:10[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/ShareFortuneCard.tsx, /src/components/FortuneCardPreview.tsx, /src/components/ResultCard.tsx[22m
