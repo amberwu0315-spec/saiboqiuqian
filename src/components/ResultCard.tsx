@@ -9,14 +9,13 @@ interface ResultCardProps {
   theme: ThemeKey;
   result: DrawResult;
   drawAt: Date;
-  drawCount: number;
   onReroll: () => void;
   onSwitchMode: () => void;
 }
 
-export default function ResultCard({ theme, result, drawAt, drawCount, onReroll, onSwitchMode }: ResultCardProps) {
+export default function ResultCard({ theme, result, drawAt, onReroll, onSwitchMode }: ResultCardProps) {
   const t = THEMES[theme];
-  const payload = buildShareCardPayload(result, drawAt, drawCount);
+  const payload = buildShareCardPayload(result, drawAt);
   const previewRef = useRef<HTMLDivElement>(null);
   const [showShareCard, setShowShareCard] = useState(true);
   const [exporting, setExporting] = useState(false);
@@ -117,7 +116,6 @@ export default function ResultCard({ theme, result, drawAt, drawCount, onReroll,
           theme={theme}
           result={result}
           drawAt={drawAt}
-          drawCount={drawCount}
           onReroll={onReroll}
           onClose={() => setShowShareCard(false)}
         />

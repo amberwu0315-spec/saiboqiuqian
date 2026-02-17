@@ -8,13 +8,12 @@ interface ShareFortuneCardProps {
   theme: ThemeKey;
   result: DrawResult;
   drawAt: Date;
-  drawCount: number;
   onReroll: () => void;
   onClose: () => void;
 }
 
-export default function ShareFortuneCard({ theme, result, drawAt, drawCount, onReroll, onClose }: ShareFortuneCardProps) {
-  const payload = buildShareCardPayload(result, drawAt, drawCount);
+export default function ShareFortuneCard({ theme, result, drawAt, onReroll, onClose }: ShareFortuneCardProps) {
+  const payload = buildShareCardPayload(result, drawAt);
   const previewRef = useRef<HTMLDivElement>(null);
   const [exporting, setExporting] = useState(false);
   const [toastText, setToastText] = useState("");

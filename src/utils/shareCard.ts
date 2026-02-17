@@ -220,14 +220,10 @@ export function formatLunarDate(date: Date): string {
   }
 }
 
-function buildCompanionSource(drawCount: number): string {
-  const normalized = Number.isFinite(drawCount) && drawCount > 0 ? Math.floor(drawCount) : 1;
-  return `陪第${normalized}位停下来想想的人儿`;
-}
+const SHARE_SOURCE_LINE = "新的一年共勉啦~";
 
-export function buildShareCardPayload(result: DrawResult, drawAt: Date, drawCount: number): ShareCardPayload {
+export function buildShareCardPayload(result: DrawResult, drawAt: Date): ShareCardPayload {
   const visual = getTrackVisual(result.track);
-  const sourceLine = buildCompanionSource(drawCount);
 
   if (result.track === "trad") {
     return {
@@ -238,7 +234,7 @@ export function buildShareCardPayload(result: DrawResult, drawAt: Date, drawCoun
       lunarDate: formatLunarDate(drawAt),
       solarDate: formatSolarDate(drawAt),
       timestamp: formatTimestamp(drawAt),
-      source: sourceLine,
+      source: SHARE_SOURCE_LINE,
       accent: visual.accent,
       surfaceTint: visual.softSurface
     };
@@ -253,7 +249,7 @@ export function buildShareCardPayload(result: DrawResult, drawAt: Date, drawCoun
       lunarDate: formatLunarDate(drawAt),
       solarDate: formatSolarDate(drawAt),
       timestamp: formatTimestamp(drawAt),
-      source: sourceLine,
+      source: SHARE_SOURCE_LINE,
       accent: visual.accent,
       surfaceTint: visual.softSurface
     };
@@ -267,7 +263,7 @@ export function buildShareCardPayload(result: DrawResult, drawAt: Date, drawCoun
     lunarDate: formatLunarDate(drawAt),
     solarDate: formatSolarDate(drawAt),
     timestamp: formatTimestamp(drawAt),
-    source: sourceLine,
+    source: SHARE_SOURCE_LINE,
     accent: visual.accent,
     surfaceTint: visual.softSurface
   };
@@ -445,6 +441,116 @@ function drawImageContain(ctx: CanvasRenderingContext2D, image: CanvasImageSourc
   ctx.drawImage(image, drawX, drawY, drawW, drawH);
 }
 
+function fillRoundedRect(
+  ctx: CanvasRenderingContext2D,
+  frame: DrawFrame,
+  radius: number,
+  fillStyle: string | CanvasGradient | CanvasPattern
+): void {
+  ctx.save();
+  roundedRectPath(ctx, frame, radius);
+  ctx.fillStyle = fillStyle;
+  ctx.fill();
+  ctx.restore();
+}
+
+function strokeRoundedRect(
+  ctx: CanvasRenderingContext2D,
+  frame: DrawFrame,
+  radius: number,
+  strokeStyle: string,
+  lineWidth: number
+): void {
+  ctx.save();
+  roundedRectPath(ctx, frame, radius);
+  ctx.strokeStyle = strokeStyle;
+  ctx.lineWidth = lineWidth;
+  ctx.stroke();
+  ctx.restore();
+}
+
+function drawRoundedImage(
+  ctx: CanvasRenderingContext2D,
+  image: CanvasImageSource,
+  frame: DrawFrame,
+  radius: number,
+  borderColor: string
+): void {
+  ctx.save();
+  roundedRectPath(ctx, frame, radius);
+  ctx.clip();
+  drawImageContain(ctx, image, frame);
+  ctx.restore();
+  strokeRoundedRect(ctx, frame, radius, borderColor, 2);
+}
+
+function drawLantern(ctx: CanvasRenderingContext2D, centerX: number, topY: number, size: number): void {
+  const capHeight = size * 0.12;
+  const bodyWidth = size * 0.58;
+  const bodyHeight = size * 0.76;
+  const bodyFrame: DrawFrame = {
+    x: centerX - bodyWidth / 2,
+    y: topY + capHeight + size * 0.05,
+    width: bodyWidth,
+    height: bodyHeight
+  };
+  const tasselLength = size * 0.34;
+
+  ctx.save();
+  ctx.fillStyle = "#d9a94f";
+  ctx.fillRect(centerX - bodyWidth * 0.2, topY, bodyWidth * 0.4, capHeight);
+
+  const bodyGradient = ctx.createLinearGradient(0, bodyFrame.y, 0, bodyFrame.y + bodyFrame.height);
+  bodyGradient.addColorStop(0, "#ef4444");
+  bodyGradient.addColorStop(1, "#c81e1e");
+  fillRoundedRect(ctx, bodyFrame, bodyWidth * 0.44, bodyGradient);
+
+  ctx.strokeStyle = "rgba(254,226,166,0.55)";
+  ctx.lineWidth = 2;
+  for (const xOffset of [-0.24, 0, 0.24]) {
+    const x = centerX + bodyWidth * xOffset;
+    ctx.beginPath();
+    ctx.moveTo(x, bodyFrame.y + 6);
+    ctx.lineTo(x, bodyFrame.y + bodyFrame.height - 6);
+    ctx.stroke();
+  }
+
+  const tasselTopY = bodyFrame.y + bodyFrame.height;
+  ctx.strokeStyle = "#b45309";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(centerX, tasselTopY);
+  ctx.lineTo(centerX, tasselTopY + tasselLength);
+  ctx.stroke();
+
+  ctx.fillStyle = "#dc2626";
+  ctx.beginPath();
+  ctx.arc(centerX, tasselTopY + tasselLength, size * 0.06, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+}
+
+function drawNewYearDecorations(ctx: CanvasRenderingContext2D, frame: DrawFrame): void {
+  drawLantern(ctx, frame.x + 84, frame.y + 30, 116);
+  drawLantern(ctx, frame.x + frame.width - 84, frame.y + 30, 116);
+
+  const confettiDots = [
+    { x: frame.x + 64, y: frame.y + 228, radius: 6 },
+    { x: frame.x + frame.width - 64, y: frame.y + 228, radius: 6 },
+    { x: frame.x + 98, y: frame.y + frame.height - 170, radius: 5 },
+    { x: frame.x + frame.width - 98, y: frame.y + frame.height - 170, radius: 5 },
+    { x: frame.x + frame.width / 2 - 360, y: frame.y + frame.height - 120, radius: 4 },
+    { x: frame.x + frame.width / 2 + 360, y: frame.y + frame.height - 120, radius: 4 }
+  ];
+
+  for (const dot of confettiDots) {
+    ctx.beginPath();
+    ctx.fillStyle = "rgba(217,169,79,0.72)";
+    ctx.arc(dot.x, dot.y, dot.radius, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
 async function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const image = new Image();
@@ -486,48 +592,80 @@ async function elementToPngBlob(element: HTMLElement, track: Track): Promise<Blo
     throw new Error("无法创建画布");
   }
 
-  ctx.fillStyle = "#fdf8f2";
+  const pageGradient = ctx.createLinearGradient(0, 0, 0, CARD_HEIGHT);
+  pageGradient.addColorStop(0, "#f8efe2");
+  pageGradient.addColorStop(1, "#f5e8d8");
+  ctx.fillStyle = pageGradient;
   ctx.fillRect(0, 0, CARD_WIDTH, CARD_HEIGHT);
 
-  const outerPadding = 56;
-  const blockGap = 28;
-  const availableWidth = CARD_WIDTH - outerPadding * 2;
-  const availableHeight = CARD_HEIGHT - outerPadding * 2;
-  const sharedRadius = 8;
+  const pagePadding = 56;
+  const frame: DrawFrame = {
+    x: pagePadding,
+    y: pagePadding,
+    width: CARD_WIDTH - pagePadding * 2,
+    height: CARD_HEIGHT - pagePadding * 2
+  };
+  const frameRadius = 22;
+  fillRoundedRect(ctx, frame, frameRadius, "#fdf8f1");
+  strokeRoundedRect(ctx, frame, frameRadius, "rgba(196,156,125,0.5)", 2);
+  drawNewYearDecorations(ctx, frame);
+
+  const centerX = frame.x + frame.width / 2;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillStyle = "#904234";
+  ctx.font = "600 64px PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif";
+  ctx.fillText("赛博求签", centerX, frame.y + 84);
+  ctx.fillStyle = "#af7f58";
+  ctx.font = "400 24px PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif";
+  ctx.fillText("新年签运，请查收", centerX, frame.y + 126);
+
+  const footerTextY = frame.y + frame.height - 52;
+  ctx.fillStyle = "#7a5d47";
+  ctx.font = "500 30px PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif";
+  ctx.fillText("勉勉强强工作室 出品", centerX, footerTextY);
+
+  const contentHorizontalInset = 36;
+  const titleBlockHeight = 178;
+  const footerBlockHeight = 108;
+  const contentArea: DrawFrame = {
+    x: frame.x + contentHorizontalInset,
+    y: frame.y + titleBlockHeight,
+    width: frame.width - contentHorizontalInset * 2,
+    height: frame.height - titleBlockHeight - footerBlockHeight
+  };
+  const blockGap = 24;
+  const sharedRadius = 16;
+  const borderColor = "rgba(196,156,125,0.48)";
 
   if (!trackImage) {
-    const frame: DrawFrame = { x: outerPadding, y: outerPadding, width: availableWidth, height: availableHeight };
     const source = snapshot as { width: number; height: number };
-    const scale = Math.min(frame.width / source.width, frame.height / source.height);
+    const scale = Math.min(contentArea.width / source.width, contentArea.height / source.height);
     const drawFrame: DrawFrame = {
-      x: frame.x + (frame.width - source.width * scale) / 2,
-      y: frame.y + (frame.height - source.height * scale) / 2,
+      x: contentArea.x + (contentArea.width - source.width * scale) / 2,
+      y: contentArea.y + (contentArea.height - source.height * scale) / 2,
       width: source.width * scale,
       height: source.height * scale
     };
-    ctx.save();
-    roundedRectPath(ctx, drawFrame, sharedRadius);
-    ctx.clip();
-    drawImageContain(ctx, snapshot, drawFrame);
-    ctx.restore();
+    drawRoundedImage(ctx, snapshot, drawFrame, sharedRadius, borderColor);
   } else {
     const topAspect = snapshot.height / snapshot.width;
     const bottomAspect = trackImage.height / trackImage.width;
-    let contentWidth = availableWidth;
+    let contentWidth = contentArea.width;
     let topHeight = contentWidth * topAspect;
     let bottomHeight = contentWidth * bottomAspect;
 
-    const combinedHeight = topHeight + blockGap + bottomHeight;
-    if (combinedHeight > availableHeight) {
-      const shrinkScale = availableHeight / combinedHeight;
+    const totalHeight = topHeight + blockGap + bottomHeight;
+    if (totalHeight > contentArea.height) {
+      const shrinkScale = contentArea.height / totalHeight;
       contentWidth *= shrinkScale;
       topHeight *= shrinkScale;
       bottomHeight *= shrinkScale;
     }
 
     const stackHeight = topHeight + blockGap + bottomHeight;
-    const startX = (CARD_WIDTH - contentWidth) / 2;
-    const startY = outerPadding + (availableHeight - stackHeight) / 2;
+    const startX = contentArea.x + (contentArea.width - contentWidth) / 2;
+    const startY = contentArea.y + (contentArea.height - stackHeight) / 2;
     const topFrame: DrawFrame = {
       x: startX,
       y: startY,
@@ -541,17 +679,8 @@ async function elementToPngBlob(element: HTMLElement, track: Track): Promise<Blo
       height: bottomHeight
     };
 
-    ctx.save();
-    roundedRectPath(ctx, topFrame, sharedRadius);
-    ctx.clip();
-    drawImageContain(ctx, snapshot, topFrame);
-    ctx.restore();
-
-    ctx.save();
-    roundedRectPath(ctx, bottomFrame, sharedRadius);
-    ctx.clip();
-    drawImageContain(ctx, trackImage, bottomFrame);
-    ctx.restore();
+    drawRoundedImage(ctx, snapshot, topFrame, sharedRadius, borderColor);
+    drawRoundedImage(ctx, trackImage, bottomFrame, sharedRadius, borderColor);
   }
 
   return new Promise<Blob>((resolve, reject) => {
