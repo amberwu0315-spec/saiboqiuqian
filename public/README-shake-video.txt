@@ -1,13 +1,22 @@
-将抽签媒体放在此目录下：
+将三种签类型的媒体放在此目录下：
 
-- 静态图（ready 阶段）：public/images/cat-ready.jpg（3:4）
-- 视频（shaking 阶段）：public/videos/shake-draw.mp4（3:4）
-- 视频兼容补充：public/videos/shake-draw.webm（可选）
+- 传统签
+  - 静态图（ready）：public/images/ready-trad.jpg（兼容：ready-trad.jpg.png）
+  - 视频（shaking）：public/videos/shake-trad.mp4（兼容：shake-trad.mp4.mp4）
+  - 视频备用：public/videos/shake-trad.webm
 
-说明：
+- 勉勉强强签
+  - 静态图（ready）：public/images/ready-mmm.jpg（兼容：ready-mmm.jpg.png）
+  - 视频（shaking）：public/videos/shake-mmm.mp4（兼容：shake-mmm.mp4.mp4）
+  - 视频备用：public/videos/shake-mmm.webm
 
-- 代码当前会自动尝试：
-  - 视频：/videos/shake-draw.webm -> /videos/shake-draw.mp4 -> /videos/shake-draw.mp4.mp4
-  - 图片：/images/cat-ready.jpg -> /cat-ragdoll-seal-bicolor.jpg -> /videos/shake-draw.webm.png
-- 如果视频缺失，会回退到图片。
-- 如果图片也缺失，才会回退到现有签筒动画，不影响流程。
+- Yes / No 签
+  - 静态图（ready）：public/images/ready-yesno.jpg（兼容：ready-yesno.jpg.png）
+  - 视频（shaking）：public/videos/shake-yesno.mp4（兼容：shake-yesno.mp4.mp4）
+  - 视频备用：public/videos/shake-yesno.webm
+
+回退规则：
+
+- 视频会继续回退到：/videos/shake-draw.mp4 -> /videos/shake-draw.mp4.mp4 -> /videos/shake-draw.webm
+- 图片会继续回退到：/images/cat-ready.jpg -> /cat-ragdoll-seal-bicolor.jpg -> /videos/shake-draw.webm.png
+- 若图片也缺失，最后回退到签筒动画，流程不会中断。

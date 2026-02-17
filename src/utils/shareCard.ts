@@ -1,8 +1,9 @@
-import type { DrawResult } from "../types";
+import { getTrackVisual } from "../constants/tracks";
+import type { DrawResult, Track } from "../types";
 import type { ThemeKey } from "../theme";
-import { CAT_BG_IMAGE_PATH } from "../constants/catBackground";
 
 export type ShareCardPayload = {
+  track: Track;
   modeLabel: string;
   title: string;
   lines: string[];
@@ -10,11 +11,13 @@ export type ShareCardPayload = {
   solarDate: string;
   timestamp: string;
   source: string;
+  accent: string;
+  surfaceTint: string;
 };
 
 const CARD_WIDTH = 1080;
 const CARD_HEIGHT = 1920;
-const STUDIO_MOTTO = "勉强的勉是共勉的勉，勉强的强是自强的强";
+const STUDIO_SOURCE = "勉勉强强工作室";
 
 function pad(n: number): string {
   return n < 10 ? `0${n}` : `${n}`;
@@ -73,30 +76,53 @@ export function formatLunarDate(date: Date): string {
 }
 
 export function buildShareCardPayload(result: DrawResult, drawAt: Date): ShareCardPayload {
+  const visual = getTrackVisual(result.track);
+
   if (result.track === "trad") {
     return {
-      modeLabel: "🎐 传统签",
+      track: result.track,
+      modeLabel: visual.modeLabel,
       title: `第 ${result.fortune.id} 签 · ${result.fortune.level}`,
-      lines: [...result.fortune.text, `解：${result.fortune.explain}`, `断：${result.fortune.judge}`],
+      lines: [result.fortune.text],
       lunarDate: formatLunarDate(drawAt),
       solarDate: formatSolarDate(drawAt),
       timestamp: formatTimestamp(drawAt),
-      source: `🐱 ${STUDIO_MOTTO}`
+      source: STUDIO_SOURCE,
+      accent: visual.accent,
+      surfaceTint: visual.softSurface
+    };
+  }
+
+  if (result.track === "yesno") {
+    return {
+      track: result.track,
+      modeLabel: visual.modeLabel,
+      title: result.fortune.text,
+      lines: [],
+      lunarDate: formatLunarDate(drawAt),
+      solarDate: formatSolarDate(drawAt),
+      timestamp: formatTimestamp(drawAt),
+      source: STUDIO_SOURCE,
+      accent: visual.accent,
+      surfaceTint: visual.softSurface
     };
   }
 
   return {
-    modeLabel: "🧶 勉勉强强签",
-    title: result.fortune.name,
-    lines: [result.fortune.text, result.fortune.note, result.fortune.disclaimer],
+    track: result.track,
+    modeLabel: visual.modeLabel,
+    title: visual.name,
+    lines: [result.fortune.text],
     lunarDate: formatLunarDate(drawAt),
     solarDate: formatSolarDate(drawAt),
     timestamp: formatTimestamp(drawAt),
-    source: STUDIO_MOTTO
+    source: STUDIO_SOURCE,
+    accent: visual.accent,
+    surfaceTint: visual.softSurface
   };
 }
 
-function buildStationeryCardSvg(payload: ShareCardPayload, withCatBackground = true): string {
+function buildStationeryCardSvg(payload: ShareCardPayload): string {
   const padding = 92;
   const cardX = 70;
   const cardY = 70;
@@ -113,13 +139,6 @@ function buildStationeryCardSvg(payload: ShareCardPayload, withCatBackground = t
     })
     .join("");
 
-  const catLayer = withCatBackground
-    ? `
-  <image href="${escapeXml(CAT_BG_IMAGE_PATH)}" x="-120" y="-80" width="${CARD_WIDTH + 220}" height="${CARD_HEIGHT + 200}" preserveAspectRatio="xMidYMid slice" opacity="0.1" filter="url(#catTone)" />
-  <image href="${escapeXml(CAT_BG_IMAGE_PATH)}" x="${CARD_WIDTH - 610}" y="${CARD_HEIGHT - 980}" width="760" height="1060" preserveAspectRatio="xMidYMid slice" opacity="0.11" filter="url(#catEdgeTone)" />
-`
-    : "";
-
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="${CARD_WIDTH}" height="${CARD_HEIGHT}" viewBox="0 0 ${CARD_WIDTH} ${CARD_HEIGHT}">
   <defs>
@@ -127,34 +146,16 @@ function buildStationeryCardSvg(payload: ShareCardPayload, withCatBackground = t
       <stop offset="0%" stop-color="#faf5ec" />
       <stop offset="100%" stop-color="#eee2d3" />
     </linearGradient>
-    <filter id="catTone">
-      <feColorMatrix type="saturate" values="0.24" />
-      <feComponentTransfer>
-        <feFuncR type="linear" slope="0.82" intercept="0.08" />
-        <feFuncG type="linear" slope="0.84" intercept="0.08" />
-        <feFuncB type="linear" slope="0.88" intercept="0.08" />
-      </feComponentTransfer>
-      <feGaussianBlur stdDeviation="1.8" />
-    </filter>
-    <filter id="catEdgeTone">
-      <feColorMatrix type="saturate" values="0.2" />
-      <feComponentTransfer>
-        <feFuncR type="linear" slope="0.8" intercept="0.1" />
-        <feFuncG type="linear" slope="0.84" intercept="0.1" />
-        <feFuncB type="linear" slope="0.9" intercept="0.1" />
-      </feComponentTransfer>
-      <feGaussianBlur stdDeviation="2.6" />
-    </filter>
   </defs>
   <rect width="${CARD_WIDTH}" height="${CARD_HEIGHT}" fill="url(#bgCat)" />
-  ${catLayer}
+  <rect width="${CARD_WIDTH}" height="${CARD_HEIGHT}" fill="${escapeXml(payload.surfaceTint)}" />
   <rect width="${CARD_WIDTH}" height="${CARD_HEIGHT}" fill="#fffaf3" fill-opacity="0.58"/>
   <rect x="${cardX}" y="${cardY}" width="${cardW}" height="${cardH}" rx="38" fill="#fffaf4" fill-opacity="0.94" stroke="#d8ccbf" stroke-opacity="0.62" stroke-width="2"/>
   <rect x="${padding}" y="148" width="226" height="48" rx="24" fill="#fffdf9" stroke="#d8ccbf" stroke-opacity="0.62"/>
   <text x="${padding + 24}" y="180" font-size="26" fill="#6c5f50" font-family="PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif">${escapeXml(
     payload.modeLabel
   )}</text>
-  <text x="${padding}" y="302" font-size="64" font-weight="600" fill="#ff3b30" font-family="PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif">${escapeXml(
+  <text x="${padding}" y="302" font-size="64" font-weight="600" fill="${escapeXml(payload.accent)}" font-family="PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif">${escapeXml(
     payload.title
   )}</text>
   <text x="${padding}" y="374" font-size="26" fill="#6f6252" fill-opacity="0.88" font-family="PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif">日期：${escapeXml(
@@ -213,7 +214,7 @@ function buildPixelCardSvg(payload: ShareCardPayload): string {
 }
 
 export function buildShareCardSvg(payload: ShareCardPayload, theme: ThemeKey): string {
-  return theme === "pixel" ? buildPixelCardSvg(payload) : buildStationeryCardSvg(payload, true);
+  return theme === "pixel" ? buildPixelCardSvg(payload) : buildStationeryCardSvg(payload);
 }
 
 async function svgToPngBlob(svg: string): Promise<Blob> {
@@ -256,18 +257,61 @@ async function svgToPngBlob(svg: string): Promise<Blob> {
   }
 }
 
-export async function downloadShareCardPng(payload: ShareCardPayload, theme: ThemeKey): Promise<void> {
+async function elementToPngBlob(element: HTMLElement): Promise<Blob> {
+  const { default: html2canvas } = await import("html2canvas");
+  const snapshot = await html2canvas(element, {
+    backgroundColor: null,
+    scale: Math.max(2, window.devicePixelRatio || 1),
+    useCORS: true,
+    logging: false
+  });
+
+  const canvas = document.createElement("canvas");
+  canvas.width = CARD_WIDTH;
+  canvas.height = CARD_HEIGHT;
+
+  const ctx = canvas.getContext("2d");
+  if (!ctx) {
+    throw new Error("无法创建画布");
+  }
+
+  ctx.fillStyle = "#fdf8f2";
+  ctx.fillRect(0, 0, CARD_WIDTH, CARD_HEIGHT);
+
+  const padding = 64;
+  const maxW = CARD_WIDTH - padding * 2;
+  const maxH = CARD_HEIGHT - padding * 2;
+  const scale = Math.min(maxW / snapshot.width, maxH / snapshot.height);
+  const drawW = snapshot.width * scale;
+  const drawH = snapshot.height * scale;
+  const x = (CARD_WIDTH - drawW) / 2;
+  const y = (CARD_HEIGHT - drawH) / 2;
+  ctx.drawImage(snapshot, x, y, drawW, drawH);
+
+  return new Promise<Blob>((resolve, reject) => {
+    canvas.toBlob((blob) => {
+      if (blob) {
+        resolve(blob);
+      } else {
+        reject(new Error("PNG 导出失败"));
+      }
+    }, "image/png");
+  });
+}
+
+export async function downloadShareCardPng(payload: ShareCardPayload, theme: ThemeKey, sourceElement?: HTMLElement | null): Promise<void> {
   let pngBlob: Blob;
 
-  try {
+  if (sourceElement) {
+    try {
+      pngBlob = await elementToPngBlob(sourceElement);
+    } catch {
+      const svg = buildShareCardSvg(payload, theme);
+      pngBlob = await svgToPngBlob(svg);
+    }
+  } else {
     const svg = buildShareCardSvg(payload, theme);
     pngBlob = await svgToPngBlob(svg);
-  } catch (error) {
-    if (theme !== "stationery") {
-      throw error;
-    }
-    // If cat image is missing/unavailable, fall back to clean paper background.
-    pngBlob = await svgToPngBlob(buildStationeryCardSvg(payload, false));
   }
 
   const url = URL.createObjectURL(pngBlob);

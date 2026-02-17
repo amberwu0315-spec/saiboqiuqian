@@ -41,9 +41,14 @@ export default function AboutIntentModal({ theme, open, onClose }: AboutIntentMo
         </h2>
 
         <div className={`mt-4 space-y-3 text-sm leading-relaxed ${theme === "pixel" ? "font-mono text-zinc-300" : "text-[#5b4f44] md:text-[15px] md:leading-8"}`}>
-          <p>我做它，只是想在不确定里，有一个能停一下的时刻。</p>
-          <p>很多时候我并不缺答案，我只是想被一句话轻轻接住。</p>
-          <p>所以它不会替人做决定，只把那一刻认真留下来。</p>
+          <p>赛博抽签不是为了给答案。</p>
+          <p>
+            有时候，
+            <br />
+            你只是想确认一下，
+            <br />
+            自己在想什么
+          </p>
         </div>
 
         <div className={`mt-6 ${theme === "pixel" ? "" : "flex justify-end"}`}>

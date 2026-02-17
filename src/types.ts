@@ -1,18 +1,19 @@
-export type Track = "trad" | "mmm";
+export type Track = "trad" | "mmm" | "yesno";
+export type MmmCopyTypeId = "letItBe" | "stuck" | "noExplain" | "stillCarrying" | "pause";
 
 export interface TraditionalFortune {
   id: number;
   level: "上签" | "中签" | "下签";
-  text: [string, string];
-  explain: string;
-  judge: string;
+  text: string;
 }
 
 export interface MmmFortune {
-  name: string;
+  id: number;
   text: string;
-  note: string;
-  disclaimer: string;
+}
+
+export interface YesNoFortune {
+  text: string;
 }
 
 export type DrawResult =
@@ -23,4 +24,8 @@ export type DrawResult =
   | {
       track: "mmm";
       fortune: MmmFortune;
+    }
+  | {
+      track: "yesno";
+      fortune: YesNoFortune;
     };

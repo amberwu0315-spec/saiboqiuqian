@@ -1,24 +1,32 @@
 import { useEffect, useState } from "react";
+import { getTrackVisual } from "../constants/tracks";
 import { THEMES, type ThemeKey } from "../theme";
-import { READY_IMAGE_SOURCE_LIST, SHAKE_VIDEO_SOURCE_LIST } from "../constants/shakeVideo";
+import type { Track } from "../types";
 import TubePixel from "./TubePixel";
 import TubeStationery from "./TubeStationery";
 
 interface ShakeStageProps {
   theme: ThemeKey;
+  mode: Track;
   showPop: boolean;
   onMediaComplete?: () => void;
 }
 
-export default function ShakeStage({ theme, showPop, onMediaComplete }: ShakeStageProps) {
+export default function ShakeStage({ theme, mode, showPop, onMediaComplete }: ShakeStageProps) {
   const t = THEMES[theme];
+  const visual = getTrackVisual(mode);
   const [videoSourceIndex, setVideoSourceIndex] = useState(0);
   const [fallbackImageIndex, setFallbackImageIndex] = useState(0);
   const activeVideoSource =
-    videoSourceIndex < SHAKE_VIDEO_SOURCE_LIST.length ? SHAKE_VIDEO_SOURCE_LIST[videoSourceIndex] : null;
+    videoSourceIndex < visual.shakeVideoSources.length ? visual.shakeVideoSources[videoSourceIndex] : null;
   const useStationeryVideo = theme === "stationery" && Boolean(activeVideoSource);
-  const noFallbackImage = fallbackImageIndex >= READY_IMAGE_SOURCE_LIST.length;
-  const fallbackImageSrc = READY_IMAGE_SOURCE_LIST[Math.min(fallbackImageIndex, READY_IMAGE_SOURCE_LIST.length - 1)];
+  const noFallbackImage = fallbackImageIndex >= visual.readyImageSources.length;
+  const fallbackImageSrc = visual.readyImageSources[Math.min(fallbackImageIndex, visual.readyImageSources.length - 1)];
+
+  useEffect(() => {
+    setVideoSourceIndex(0);
+    setFallbackImageIndex(0);
+  }, [mode]);
 
   useEffect(() => {
     if (theme !== "stationery" || !onMediaComplete || activeVideoSource) {
@@ -31,8 +39,20 @@ export default function ShakeStage({ theme, showPop, onMediaComplete }: ShakeSta
   return (
     <section className={`${t.panel} p-5`}>
       {theme === "stationery" && (
-        <div className="mb-3 text-center">
-          <p className="text-xs tracking-[0.08em] text-[#7a6a5e]">抽签进行中</p>
+        <div className="mb-3 flex items-center justify-between gap-3">
+          <p className="text-sm tracking-[0.06em]" style={{ color: visual.accent }}>
+            抽签进行中
+          </p>
+          {useStationeryVideo && (
+            <button
+              type="button"
+              className="h-7 rounded-full border bg-white px-2.5 text-[11px] text-[#66584a] transition hover:bg-[#f7f1e8] active:translate-y-[1px]"
+              style={{ borderColor: visual.accent }}
+              onClick={onMediaComplete}
+            >
+              跳过视频
+            </button>
+          )}
         </div>
       )}
       <div className={`${t.stage} h-auto md:h-auto`}>
@@ -47,7 +67,7 @@ export default function ShakeStage({ theme, showPop, onMediaComplete }: ShakeSta
           className={`${
             theme === "pixel"
               ? "border border-zinc-100/15 bg-zinc-900/35 p-3"
-              : "w-full rounded-2xl border border-[#d8ccbf]/70 bg-white/88 p-4 shadow-[0_8px_16px_rgba(112,99,88,0.1)]"
+              : "w-full p-2 md:p-3"
           }`}
         >
           {theme === "pixel" ? (
@@ -55,14 +75,14 @@ export default function ShakeStage({ theme, showPop, onMediaComplete }: ShakeSta
           ) : useStationeryVideo ? (
             <video
               key={activeVideoSource?.src}
-              className="block h-auto w-full rounded-2xl border border-[#d4c8bc]/65 bg-[#f7efe6] object-contain shadow-[0_10px_20px_rgba(112,99,88,0.12)]"
+              className="block h-auto w-full rounded-2xl bg-[#f7efe6] object-contain"
               autoPlay
               muted
               playsInline
               preload="auto"
               onEnded={onMediaComplete}
               onError={() =>
-                setVideoSourceIndex((idx) => (idx < SHAKE_VIDEO_SOURCE_LIST.length ? idx + 1 : idx))
+                setVideoSourceIndex((idx) => (idx < visual.shakeVideoSources.length ? idx + 1 : idx))
               }
               aria-hidden="true"
             >
@@ -73,10 +93,10 @@ export default function ShakeStage({ theme, showPop, onMediaComplete }: ShakeSta
               src={fallbackImageSrc}
               alt=""
               aria-hidden="true"
-              className="block h-auto w-full rounded-2xl border border-[#d4c8bc]/65 bg-[#f7efe6] object-contain shadow-[0_10px_20px_rgba(112,99,88,0.12)]"
+              className="block h-auto w-full rounded-2xl bg-[#f7efe6] object-contain"
               loading="eager"
               decoding="async"
-              onError={() => setFallbackImageIndex((idx) => (idx < READY_IMAGE_SOURCE_LIST.length ? idx + 1 : idx))}
+              onError={() => setFallbackImageIndex((idx) => (idx < visual.readyImageSources.length ? idx + 1 : idx))}
             />
           ) : (
             <TubeStationery shaking />

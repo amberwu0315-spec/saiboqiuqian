@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getTrackVisual } from "../constants/tracks";
 import { THEMES, type ThemeKey } from "../theme";
-import { READY_IMAGE_SOURCE_LIST } from "../constants/shakeVideo";
+import type { Track } from "../types";
 import TubePixel from "./TubePixel";
 import TubeStationery from "./TubeStationery";
 
 interface ReadyPanelProps {
   theme: ThemeKey;
-  modeLabel: string;
+  mode: Track;
   supported: boolean;
   motionEnabled: boolean;
   permState: "unknown" | "granted" | "denied" | "unsupported";
@@ -17,7 +18,7 @@ interface ReadyPanelProps {
 
 export default function ReadyPanel({
   theme,
-  modeLabel,
+  mode,
   supported,
   motionEnabled,
   permState,
@@ -26,10 +27,15 @@ export default function ReadyPanel({
   onSwitchMode
 }: ReadyPanelProps) {
   const t = THEMES[theme];
+  const visual = getTrackVisual(mode);
   const canEnableShake = supported && !motionEnabled;
   const [readyImageIndex, setReadyImageIndex] = useState(0);
-  const noReadyImage = readyImageIndex >= READY_IMAGE_SOURCE_LIST.length;
-  const readyImageSrc = READY_IMAGE_SOURCE_LIST[Math.min(readyImageIndex, READY_IMAGE_SOURCE_LIST.length - 1)];
+  const noReadyImage = readyImageIndex >= visual.readyImageSources.length;
+  const readyImageSrc = visual.readyImageSources[Math.min(readyImageIndex, visual.readyImageSources.length - 1)];
+
+  useEffect(() => {
+    setReadyImageIndex(0);
+  }, [mode]);
 
   const handleShakeTap = () => {
     if (canEnableShake) {
@@ -41,7 +47,7 @@ export default function ReadyPanel({
     return (
       <section className={`${t.panel} flex min-h-[540px] flex-col p-4 md:p-5`}>
         <div className="inline-flex w-fit items-center border border-zinc-500 bg-zinc-900 px-3 py-1 text-xs text-zinc-300">
-          <span className={t.mono}>{modeLabel}</span>
+          <span className={t.mono}>{visual.modeLabel}</span>
         </div>
 
         <div className={`mt-5 ${t.stage}`}>
@@ -70,7 +76,7 @@ export default function ReadyPanel({
             🎴 开始抽签
           </button>
           <button type="button" className={`${t.btnSecondary} ${t.mono} px-4 text-sm md:text-base`} onClick={onSwitchMode}>
-            🔁 换一种类型
+            🔁 玩玩别的签类型
           </button>
         </div>
       </section>
@@ -80,12 +86,14 @@ export default function ReadyPanel({
   return (
     <section className={`${t.panel} flex min-h-[540px] flex-col p-5`}>
       <div className="flex items-center justify-between gap-3">
-        <p className="text-xs tracking-[0.08em] text-[#7a6a5d]">准备抽签</p>
-        <div className="inline-flex w-fit items-center rounded-full border border-[#d8ccc0]/70 bg-white/92 px-3 py-1 text-xs text-[#645748]">
-          {modeLabel}
+        <p className="text-sm text-[#5c4f43]">摇一摇或点击开始抽签。</p>
+        <div
+          className="inline-flex w-fit items-center rounded-full border bg-white/92 px-3 py-1 text-xs"
+          style={{ borderColor: visual.accent, color: visual.accent }}
+        >
+          {visual.modeLabel}
         </div>
       </div>
-      <p className="mt-2 text-sm text-[#5c4f43]">选好类型后，直接开始就好。</p>
 
       <div className={`mt-5 ${t.stage} h-auto md:h-auto`}>
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(181,169,157,0.18)_1px,transparent_1px)] bg-[length:100%_32px] opacity-20" />
@@ -99,10 +107,11 @@ export default function ReadyPanel({
               src={readyImageSrc}
               alt=""
               aria-hidden="true"
-              className="block h-auto w-full rounded-2xl border border-[#d9cdc0]/70 bg-[#f7efe6] object-contain shadow-[0_10px_18px_rgba(112,99,88,0.12)]"
+              className="block h-auto w-full rounded-2xl border bg-[#f7efe6] object-contain shadow-[0_10px_18px_rgba(112,99,88,0.12)]"
+              style={{ borderColor: visual.accent }}
               loading="eager"
               decoding="async"
-              onError={() => setReadyImageIndex((idx) => (idx < READY_IMAGE_SOURCE_LIST.length ? idx + 1 : idx))}
+              onError={() => setReadyImageIndex((idx) => (idx < visual.readyImageSources.length ? idx + 1 : idx))}
             />
           )}
         </div>
@@ -124,13 +133,18 @@ export default function ReadyPanel({
       <div className="mt-auto grid grid-cols-1 gap-3 pt-5 md:grid-cols-2">
         <button
           type="button"
-          className="h-12 rounded-xl border border-[#ff3b30]/75 bg-[#ff3b30] px-4 text-sm text-white transition hover:bg-[#e4372d] active:translate-y-[1px] md:text-base"
+          className="h-12 rounded-xl border px-4 text-sm text-white transition hover:brightness-95 active:translate-y-[1px] md:text-base"
+          style={{
+            borderColor: visual.accent,
+            backgroundColor: visual.accent,
+            boxShadow: `0 6px 14px ${visual.shadow}`
+          }}
           onClick={onClickDraw}
         >
           🎴 开始抽签
         </button>
         <button type="button" className={`${t.btnSecondary} px-4 text-sm md:text-base`} onClick={onSwitchMode}>
-          🔁 换一种类型
+          🔁 玩玩别的签类型
         </button>
       </div>
     </section>

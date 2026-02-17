@@ -65,3 +65,4 @@
       at C:\Users\water\Desktop\赛博求签-勉勉强强工作室\node_modules\gensync\index.js:189:28
       at C:\Users\water\Desktop\赛博求签-勉勉强强工作室\node_modules\@babel\core\lib\gensync-utils\async.js:67:7
       at C:\Users\water\Desktop\赛博求签-勉勉强强工作室\node_modules\gensync\index.js:113:33
+[2m17:41:48[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to load url /src/data/fortunes.ts (resolved id: C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/data/fortunes.ts) in C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/App.tsx. Does the file exist?

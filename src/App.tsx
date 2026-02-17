@@ -4,6 +4,7 @@ import ModePicker from "./components/ModePicker";
 import ReadyPanel from "./components/ReadyPanel";
 import ResultCard from "./components/ResultCard";
 import ShakeStage from "./components/ShakeStage";
+import { getTrackVisual } from "./constants/tracks";
 import { drawFortune } from "./data/fortunes";
 import { requestMotionPermission, useShake, type MotionPermissionState } from "./hooks/useShake";
 import { THEMES, type ThemeKey } from "./theme";
@@ -11,13 +12,13 @@ import type { DrawResult, Track } from "./types";
 
 type Step = "chooseMode" | "ready" | "shaking" | "result";
 
-function modeLabel(mode: Track): string {
-  return mode === "trad" ? "🎐 传统签" : "🧶 勉勉强强签";
-}
-
-function FortuneJarMark({ theme }: { theme: ThemeKey }) {
-  const tone = theme === "pixel" ? "text-lime-300" : "text-[#ff3b30]";
-  return <span aria-hidden="true" className={`inline-flex text-[0.95em] leading-none ${tone}`}>🐱</span>;
+function FortuneJarMark({ theme, accent }: { theme: ThemeKey; accent: string }) {
+  const pixelTone = theme === "pixel" ? "text-lime-300" : "";
+  return (
+    <span aria-hidden="true" className={`inline-flex text-[0.95em] leading-none ${pixelTone}`} style={theme === "stationery" ? { color: accent } : undefined}>
+      🐱
+    </span>
+  );
 }
 
 export default function App() {
@@ -32,6 +33,7 @@ export default function App() {
   const [permState, setPermState] = useState<MotionPermissionState>("unknown");
 
   const t = THEMES[theme];
+  const activeAccent = getTrackVisual(mode ?? "mmm").accent;
 
   const startShaking = useCallback(() => {
     if (!mode || step === "shaking") {
@@ -142,13 +144,14 @@ export default function App() {
         >
           <div>
             <h1 className={`${t.title} inline-flex items-baseline gap-2`}>
-              <FortuneJarMark theme={theme} />
+              <FortuneJarMark theme={theme} accent={activeAccent} />
               <span>赛博求签</span>
             </h1>
             <p className={t.sub}>抽一支签，继续今天。</p>
             <button
               type="button"
-              className="mt-1 text-xs text-[#ff3b30] hover:text-[#d63027]"
+              className="mt-1 text-xs hover:brightness-95"
+              style={{ color: activeAccent }}
               onClick={() => setShowAboutIntent(true)}
             >
               如果你好奇
@@ -162,7 +165,7 @@ export default function App() {
           {step === "ready" && mode && (
             <ReadyPanel
               theme={theme}
-              modeLabel={modeLabel(mode)}
+              mode={mode}
               supported={supported}
               motionEnabled={motionEnabled}
               permState={permState}
@@ -172,7 +175,7 @@ export default function App() {
             />
           )}
 
-          {step === "shaking" && mode && <ShakeStage theme={theme} showPop={showPop} onMediaComplete={finishShaking} />}
+          {step === "shaking" && mode && <ShakeStage theme={theme} mode={mode} showPop={showPop} onMediaComplete={finishShaking} />}
 
           {step === "result" && result && drawAt && (
             <ResultCard theme={theme} result={result} drawAt={drawAt} onReroll={handleReroll} onSwitchMode={handleSwitchMode} />

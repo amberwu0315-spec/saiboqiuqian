@@ -47,7 +47,7 @@ export const THEMES: Record<ThemeKey, ThemeTokens> = {
     title: "font-semibold tracking-tight text-2xl md:text-3xl text-[#4e4338]",
     sub: "text-[#6c5e52] text-sm md:text-base",
     btnPrimary:
-      "h-12 rounded-xl border border-[#ff3b30]/70 bg-[#ff3b30] text-white hover:bg-[#e4372d] active:translate-y-[1px] font-medium transition shadow-[0_6px_14px_rgba(255,59,48,0.26)]",
+      "h-12 rounded-xl border border-[#e06d67]/70 bg-[#e06d67] text-white hover:bg-[#cf615b] active:translate-y-[1px] font-medium transition shadow-[0_6px_14px_rgba(224,109,103,0.26)]",
     btnSecondary:
       "h-12 rounded-xl border border-[#d8ccbf]/70 bg-white/88 text-[#54493e] hover:bg-[#f7f1e8] active:translate-y-[1px] transition shadow-[0_1px_0_rgba(0,0,0,0.05)]",
     chip: "inline-flex items-center gap-2 rounded-full border border-[#d8ccc0]/70 bg-white/92 px-3 py-1 text-xs text-[#645748]",
