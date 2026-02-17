@@ -253,3 +253,9 @@ Re-optimizing dependencies because lockfile has changed
 [2m19:25:43[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/FortuneCardPreview.tsx, /src/index.css[22m
 [2m19:27:10[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/ShareFortuneCard.tsx, /src/components/FortuneCardPreview.tsx, /src/components/ResultCard.tsx[22m
 [2m19:28:51[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/ShareFortuneCard.tsx, /src/components/FortuneCardPreview.tsx, /src/components/ResultCard.tsx[22m
+[2m19:29:47[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css, /src/components/ThemeToggle.tsx, /src/components/ModePicker.tsx, /src/components/ShakeStage.tsx, /src/components/ReadyPanel.tsx, /src/components/ResultCard.tsx[22m
+[2m19:30:51[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/AboutIntentModal.tsx, /src/index.css[22m
+[2m19:31:22[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ReadyPanel.tsx, /src/index.css[22m
+[2m19:31:50[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ModePicker.tsx, /src/index.css[22m
+[2m19:32:27[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ShakeStage.tsx, /src/index.css[22m
+[2m19:35:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/TubePixel.tsx, /src/index.css[22m

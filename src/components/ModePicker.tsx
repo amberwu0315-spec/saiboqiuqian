@@ -38,13 +38,13 @@ export default function ModePicker({ theme, onChooseMode }: ModePickerProps) {
         {TRACK_ORDER.map((track) => {
           const visual = getTrackVisual(track);
           return (
-            <button
-              key={track}
-              type="button"
-              className="h-auto w-full rounded-2xl px-4 py-3 text-left text-white transition hover:brightness-95 active:translate-y-[1px]"
-              style={{
-                backgroundColor: visual.accent,
-                boxShadow: `0 10px 20px ${visual.shadow}`
+              <button
+                key={track}
+                type="button"
+                className="h-auto w-full rounded-lg px-4 py-3 text-left text-white transition hover:brightness-95 active:translate-y-[1px]"
+                style={{
+                  backgroundColor: visual.accent,
+                  boxShadow: `0 10px 20px ${visual.shadow}`
               }}
               onClick={() => onChooseMode(track)}
             >

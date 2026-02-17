@@ -33,7 +33,7 @@ export default function AboutIntentModal({ theme, open, onClose }: AboutIntentMo
         className={`w-full max-w-md p-5 md:p-6 ${
           theme === "pixel"
             ? "border border-zinc-100/25 bg-zinc-950/95 text-zinc-100"
-            : "rounded-2xl border border-[#d9cec1]/70 bg-[#fdf8f2] text-zinc-800 shadow-[0_14px_34px_rgba(112,99,88,0.13)] md:px-8 md:py-7"
+            : "rounded-lg border border-[#d9cec1]/70 bg-[#fdf8f2] text-zinc-800 shadow-[0_14px_34px_rgba(112,99,88,0.13)] md:px-8 md:py-7"
         }`}
       >
         <h2 className={`text-base md:text-lg ${theme === "pixel" ? "font-mono text-zinc-100" : "font-medium text-[#5a4c40] md:text-xl"}`}>
@@ -57,7 +57,7 @@ export default function AboutIntentModal({ theme, open, onClose }: AboutIntentMo
             className={`h-10 text-sm active:translate-y-[1px] ${
               theme === "pixel"
                 ? "w-full border border-zinc-100/30 bg-zinc-900 text-zinc-100 hover:bg-zinc-800 font-mono"
-                : "rounded-2xl border border-[#d8ccc0]/75 bg-white px-4 text-[#625447] hover:bg-[#f7f1e8]"
+                : "rounded-lg border border-[#d8ccc0]/75 bg-white px-4 text-[#625447] hover:bg-[#f7f1e8]"
             }`}
             onClick={onClose}
           >

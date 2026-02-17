@@ -88,7 +88,7 @@ export default function ReadyPanel({
       <div className="flex items-center justify-between gap-3">
         <p className="text-sm text-[#5c4f43]">摇一摇或点击开始抽签。</p>
         <div
-          className="inline-flex w-fit items-center rounded-2xl border bg-white/92 px-3 py-1 text-xs"
+          className="inline-flex w-fit items-center rounded-lg border bg-white/92 px-3 py-1 text-xs"
           style={{ borderColor: visual.accent, color: visual.accent }}
         >
           {visual.modeLabel}
@@ -103,14 +103,14 @@ export default function ReadyPanel({
               <TubeStationery shaking={false} />
             </div>
           ) : (
-            <img
-              src={readyImageSrc}
-              alt=""
-              aria-hidden="true"
-              className="block h-auto w-full rounded-2xl border bg-[#f7efe6] object-contain shadow-[0_10px_18px_rgba(112,99,88,0.12)]"
-              style={{ borderColor: visual.accent }}
-              loading="eager"
-              decoding="async"
+              <img
+                src={readyImageSrc}
+                alt=""
+                aria-hidden="true"
+                className="block h-auto w-full rounded-lg border bg-[#f7efe6] object-contain shadow-[0_10px_18px_rgba(112,99,88,0.12)]"
+                style={{ borderColor: visual.accent }}
+                loading="eager"
+                decoding="async"
               onError={() => setReadyImageIndex((idx) => (idx < visual.readyImageSources.length ? idx + 1 : idx))}
             />
           )}
@@ -120,7 +120,7 @@ export default function ReadyPanel({
       {canEnableShake && (
         <button
           type="button"
-          className="mt-3 h-10 w-fit self-center rounded-2xl border border-[#d8ccc0]/75 bg-white/92 px-4 text-xs text-[#66584a] transition hover:bg-[#f7f1e8] active:translate-y-[1px]"
+          className="mt-3 h-10 w-fit self-center rounded-lg border border-[#d8ccc0]/75 bg-white/92 px-4 text-xs text-[#66584a] transition hover:bg-[#f7f1e8] active:translate-y-[1px]"
           onClick={handleShakeTap}
         >
           启用摇一摇（可选）
@@ -133,7 +133,7 @@ export default function ReadyPanel({
       <div className="mt-auto grid grid-cols-1 gap-3 pt-5 md:grid-cols-2">
         <button
           type="button"
-          className="h-12 rounded-2xl border px-4 text-sm text-white transition hover:brightness-95 active:translate-y-[1px] md:text-base"
+          className="h-12 rounded-lg border px-4 text-sm text-white transition hover:brightness-95 active:translate-y-[1px] md:text-base"
           style={{
             borderColor: visual.accent,
             backgroundColor: visual.accent,

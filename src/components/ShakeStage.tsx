@@ -46,7 +46,7 @@ export default function ShakeStage({ theme, mode, showPop, onMediaComplete }: Sh
           {useStationeryVideo && (
             <button
               type="button"
-              className="h-7 rounded-2xl border bg-white px-2.5 text-[11px] text-[#66584a] transition hover:bg-[#f7f1e8] active:translate-y-[1px]"
+              className="h-7 rounded-lg border bg-white px-2.5 text-[11px] text-[#66584a] transition hover:bg-[#f7f1e8] active:translate-y-[1px]"
               style={{ borderColor: visual.accent }}
               onClick={onMediaComplete}
             >
@@ -75,7 +75,7 @@ export default function ShakeStage({ theme, mode, showPop, onMediaComplete }: Sh
           ) : useStationeryVideo ? (
             <video
               key={activeVideoSource?.src}
-              className="block h-auto w-full rounded-2xl bg-[#f7efe6] object-contain"
+              className="block h-auto w-full rounded-lg bg-[#f7efe6] object-contain"
               autoPlay
               muted
               playsInline
@@ -93,7 +93,7 @@ export default function ShakeStage({ theme, mode, showPop, onMediaComplete }: Sh
               src={fallbackImageSrc}
               alt=""
               aria-hidden="true"
-              className="block h-auto w-full rounded-2xl bg-[#f7efe6] object-contain"
+              className="block h-auto w-full rounded-lg bg-[#f7efe6] object-contain"
               loading="eager"
               decoding="async"
               onError={() => setFallbackImageIndex((idx) => (idx < visual.readyImageSources.length ? idx + 1 : idx))}
@@ -108,7 +108,7 @@ export default function ShakeStage({ theme, mode, showPop, onMediaComplete }: Sh
             className={`pointer-events-none absolute left-1/2 top-[140px] h-24 w-5 -translate-x-1/2 animate-popUp md:top-[180px] ${
               theme === "pixel"
                 ? "rounded-none border-2 border-zinc-50/60 bg-zinc-900"
-                : "rounded-2xl border border-[#d2bdbe]/70 bg-[#f3e8e5]"
+                : "rounded-lg border border-[#d2bdbe]/70 bg-[#f3e8e5]"
             }`}
           />
         )}
