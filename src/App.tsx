@@ -11,11 +11,40 @@ import { THEMES, type ThemeKey } from "./theme";
 import type { DrawResult, Track } from "./types";
 
 type Step = "chooseMode" | "ready" | "shaking" | "result";
+const DRAW_COUNT_STORAGE_KEY = "cyber-fortune-draw-count";
+
+function readStoredDrawCount(): number {
+  if (typeof window === "undefined") {
+    return 0;
+  }
+  try {
+    const raw = window.localStorage.getItem(DRAW_COUNT_STORAGE_KEY);
+    const parsed = Number.parseInt(raw ?? "", 10);
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : 0;
+  } catch {
+    return 0;
+  }
+}
+
+function persistDrawCount(nextCount: number): void {
+  if (typeof window === "undefined") {
+    return;
+  }
+  try {
+    window.localStorage.setItem(DRAW_COUNT_STORAGE_KEY, String(nextCount));
+  } catch {
+    // Ignore storage failures.
+  }
+}
 
 function FortuneJarMark({ theme, accent }: { theme: ThemeKey; accent: string }) {
   const pixelTone = theme === "pixel" ? "text-lime-300" : "";
   return (
-    <span aria-hidden="true" className={`inline-flex text-[0.95em] leading-none ${pixelTone}`} style={theme === "stationery" ? { color: accent } : undefined}>
+    <span
+      aria-hidden="true"
+      className={`inline-flex h-[1em] w-[1em] items-center justify-center text-[0.95em] leading-[1] align-middle ${pixelTone}`}
+      style={theme === "stationery" ? { color: accent } : undefined}
+    >
       🐱
     </span>
   );
@@ -31,6 +60,7 @@ export default function App() {
   const [showAboutIntent, setShowAboutIntent] = useState(false);
   const [motionEnabled, setMotionEnabled] = useState(false);
   const [permState, setPermState] = useState<MotionPermissionState>("unknown");
+  const [drawCount, setDrawCount] = useState<number>(() => readStoredDrawCount());
 
   const t = THEMES[theme];
   const activeAccent = getTrackVisual(mode ?? "mmm").accent;
@@ -72,6 +102,11 @@ export default function App() {
     }
     setResult(drawFortune(mode));
     setDrawAt(new Date());
+    setDrawCount((prev) => {
+      const next = prev + 1;
+      persistDrawCount(next);
+      return next;
+    });
     setStep("result");
   }, [step, mode]);
 
@@ -140,22 +175,18 @@ export default function App() {
     <div className={`min-h-dvh ${t.appBg}`}>
       <div className="mx-auto flex min-h-dvh w-full max-w-2xl flex-col gap-4 px-4 py-6 sm:px-6 md:gap-5 md:py-10">
         <header
-          className="flex items-start justify-between gap-3 rounded-2xl border border-[#d9cec1]/65 bg-[#fdf9f2]/92 p-3 md:p-4"
+          className="rounded-lg border border-[#d9cec1]/65 bg-[#fdf9f2]/92 p-3 md:p-4"
         >
-          <div>
-            <h1 className={`${t.title} inline-flex items-baseline gap-2`}>
-              <FortuneJarMark theme={theme} accent={activeAccent} />
-              <span>赛博求签</span>
-            </h1>
-            <p className={t.sub}>抽一支签，继续今天。</p>
+          <div className="w-full text-center">
             <button
               type="button"
-              className="mt-1 text-xs hover:brightness-95"
-              style={{ color: activeAccent }}
+              className={`${t.title} mx-auto inline-flex items-center justify-center gap-2 border-0 bg-transparent p-0 text-current hover:brightness-95`}
               onClick={() => setShowAboutIntent(true)}
             >
-              如果你好奇
+              <FortuneJarMark theme={theme} accent={activeAccent} />
+              <span>赛博求签（图一乐）</span>
             </button>
+            <p className={`${t.sub} mt-3`}>不是为了给答案，只是陪你想一想。</p>
           </div>
         </header>
 
@@ -178,7 +209,14 @@ export default function App() {
           {step === "shaking" && mode && <ShakeStage theme={theme} mode={mode} showPop={showPop} onMediaComplete={finishShaking} />}
 
           {step === "result" && result && drawAt && (
-            <ResultCard theme={theme} result={result} drawAt={drawAt} onReroll={handleReroll} onSwitchMode={handleSwitchMode} />
+            <ResultCard
+              theme={theme}
+              result={result}
+              drawAt={drawAt}
+              drawCount={drawCount}
+              onReroll={handleReroll}
+              onSwitchMode={handleSwitchMode}
+            />
           )}
         </main>
 

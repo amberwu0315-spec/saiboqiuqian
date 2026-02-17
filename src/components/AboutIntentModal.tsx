@@ -57,11 +57,11 @@ export default function AboutIntentModal({ theme, open, onClose }: AboutIntentMo
             className={`h-10 text-sm active:translate-y-[1px] ${
               theme === "pixel"
                 ? "w-full border border-zinc-100/30 bg-zinc-900 text-zinc-100 hover:bg-zinc-800 font-mono"
-                : "rounded-full border border-[#d8ccc0]/75 bg-white px-4 text-[#625447] hover:bg-[#f7f1e8]"
+                : "rounded-2xl border border-[#d8ccc0]/75 bg-white px-4 text-[#625447] hover:bg-[#f7f1e8]"
             }`}
             onClick={onClose}
           >
-            关掉
+            晓得
           </button>
         </div>
       </section>

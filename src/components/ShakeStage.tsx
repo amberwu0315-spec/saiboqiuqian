@@ -46,7 +46,7 @@ export default function ShakeStage({ theme, mode, showPop, onMediaComplete }: Sh
           {useStationeryVideo && (
             <button
               type="button"
-              className="h-7 rounded-full border bg-white px-2.5 text-[11px] text-[#66584a] transition hover:bg-[#f7f1e8] active:translate-y-[1px]"
+              className="h-7 rounded-2xl border bg-white px-2.5 text-[11px] text-[#66584a] transition hover:bg-[#f7f1e8] active:translate-y-[1px]"
               style={{ borderColor: visual.accent }}
               onClick={onMediaComplete}
             >
@@ -108,7 +108,7 @@ export default function ShakeStage({ theme, mode, showPop, onMediaComplete }: Sh
             className={`pointer-events-none absolute left-1/2 top-[140px] h-24 w-5 -translate-x-1/2 animate-popUp md:top-[180px] ${
               theme === "pixel"
                 ? "rounded-none border-2 border-zinc-50/60 bg-zinc-900"
-                : "rounded-full border border-[#d2bdbe]/70 bg-[#f3e8e5]"
+                : "rounded-2xl border border-[#d2bdbe]/70 bg-[#f3e8e5]"
             }`}
           />
         )}

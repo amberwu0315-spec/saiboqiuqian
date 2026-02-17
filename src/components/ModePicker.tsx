@@ -13,9 +13,7 @@ export default function ModePicker({ theme, onChooseMode }: ModePickerProps) {
   if (theme === "pixel") {
     return (
       <section className={`${t.panel} p-4 md:p-5`}>
-        <p className={`text-sm text-zinc-200 md:text-base ${t.mono}`}>今天，你想用哪种方式面对不确定？</p>
-
-        <div className="mt-4 grid grid-cols-1 gap-3">
+        <div className="grid grid-cols-1 gap-3">
           {TRACK_ORDER.map((track) => {
             const visual = getTrackVisual(track);
             return (
@@ -36,16 +34,14 @@ export default function ModePicker({ theme, onChooseMode }: ModePickerProps) {
 
   return (
     <section className={`${t.panel} p-4 md:p-5`}>
-      <p className="text-xs tracking-[0.08em] text-[#7a6a5d]">选择签类型</p>
-      <p className="mt-2 text-sm text-[#54493e] md:text-base">先做一个选择，然后开始。</p>
-      <div className="mt-4 grid grid-cols-1 gap-3">
+      <div className="grid grid-cols-1 gap-3">
         {TRACK_ORDER.map((track) => {
           const visual = getTrackVisual(track);
           return (
             <button
               key={track}
               type="button"
-              className="h-auto w-full rounded-xl px-4 py-3 text-left text-white transition hover:brightness-95 active:translate-y-[1px]"
+              className="h-auto w-full rounded-2xl px-4 py-3 text-left text-white transition hover:brightness-95 active:translate-y-[1px]"
               style={{
                 backgroundColor: visual.accent,
                 boxShadow: `0 10px 20px ${visual.shadow}`

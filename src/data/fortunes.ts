@@ -152,7 +152,10 @@ export const traditionalFortunes: TraditionalFortune[] = TRADITIONAL_LINES.map((
   };
 });
 
-export const mmmFortunes: MmmFortune[] = MMM_LINES.map((text) => ({ text }));
+export const mmmFortunes: MmmFortune[] = MMM_LINES.map((text, index) => ({
+  id: index + 1,
+  text
+}));
 
 export const yesNoFortunes: YesNoFortune[] = YES_NO_LINES.map((text) => ({ text }));
 

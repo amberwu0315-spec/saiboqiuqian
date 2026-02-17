@@ -57,8 +57,8 @@ export const TRACK_VISUALS: Record<Track, TrackVisualConfig> = {
   },
   mmm: {
     emoji: "🧶",
-    name: "勉勉强强签",
-    modeLabel: "🧶 勉勉强强签",
+    name: "随心签",
+    modeLabel: "🧶 随心签",
     pickerHint: "状态 / 允许",
     accent: "#9E7A63",
     accentHover: "#8B6B56",
@@ -79,8 +79,8 @@ export const TRACK_VISUALS: Record<Track, TrackVisualConfig> = {
   },
   yesno: {
     emoji: "🧭",
-    name: "Yes / No 签",
-    modeLabel: "🧭 Yes / No 签",
+    name: "遇事不决签",
+    modeLabel: "🧭 遇事不决签",
     pickerHint: "方向 / 决断",
     accent: "#E79A4A",
     accentHover: "#D98936",

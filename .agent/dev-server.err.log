@@ -66,3 +66,32 @@
       at C:\Users\water\Desktop\赛博求签-勉勉强强工作室\node_modules\@babel\core\lib\gensync-utils\async.js:67:7
       at C:\Users\water\Desktop\赛博求签-勉勉强强工作室\node_modules\gensync\index.js:113:33
 [2m17:41:48[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to load url /src/data/fortunes.ts (resolved id: C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/data/fortunes.ts) in C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/App.tsx. Does the file exist?
+[2m19:27:10[22m [31m[1m[vite][22m[39m Pre-transform error: Transform failed with 1 error:
+C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts:229:0: ERROR: Unexpected "export"
+[2m19:27:10[22m [31m[1m[vite][22m[39m Pre-transform error: Transform failed with 1 error:
+C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts:229:0: ERROR: Unexpected "export"
+[2m19:27:10[22m [31m[1m[vite][22m[39m [31mInternal server error: Transform failed with 1 error:
+C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts:229:0: ERROR: Unexpected "export"[39m
+  Plugin: [35mvite:esbuild[39m
+  File: [36mC:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts[39m:229:0
+[33m  
+  [33mUnexpected "export"[33m
+  227|  }
+  228|  
+  229|  export function buildShareCardPayload(result: DrawResult, drawAt: Date, drawCount: number): ShareCardPayload {
+     |  ^
+  230|    const visual = getTrackVisual(result.track);
+  231|    const sourceLine = buildCompanionSource(drawCount);
+  [39m
+      at failureErrorWithLog (C:\Users\water\Desktop\赛博求签-勉勉强强工作室\node_modules\esbuild\lib\main.js:1472:15)
+      at C:\Users\water\Desktop\赛博求签-勉勉强强工作室\node_modules\esbuild\lib\main.js:755:50
+      at responseCallbacks.<computed> (C:\Users\water\Desktop\赛博求签-勉勉强强工作室\node_modules\esbuild\lib\main.js:622:9)
+      at handleIncomingPacket (C:\Users\water\Desktop\赛博求签-勉勉强强工作室\node_modules\esbuild\lib\main.js:677:12)
+      at Socket.readFromStdout (C:\Users\water\Desktop\赛博求签-勉勉强强工作室\node_modules\esbuild\lib\main.js:600:7)
+      at Socket.emit (node:events:508:28)
+      at addChunk (node:internal/streams/readable:559:12)
+      at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+      at Readable.push (node:internal/streams/readable:390:5)
+      at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)
+[2m19:27:10[22m [31m[1m[vite][22m[39m Pre-transform error: Transform failed with 1 error:
+C:/Users/water/Desktop/赛博求签-勉勉强强工作室/src/utils/shareCard.ts:229:0: ERROR: Unexpected "export"
