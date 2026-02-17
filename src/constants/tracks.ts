@@ -1,4 +1,5 @@
 import type { Track } from "../types";
+import { withBase } from "../utils/asset";
 
 export type ShakeVideoSource = {
   src: string;
@@ -19,15 +20,15 @@ type TrackVisualConfig = {
 };
 
 const SHARED_READY_IMAGE_FALLBACK = [
-  "/images/cat-ready.jpg",
-  "/cat-ragdoll-seal-bicolor.jpg",
-  "/videos/shake-draw.webm.png"
+  withBase("/images/cat-ready.jpg"),
+  withBase("/cat-ragdoll-seal-bicolor.jpg"),
+  withBase("/videos/shake-draw.webm.png")
 ] as const;
 
 const SHARED_SHAKE_VIDEO_FALLBACK = [
-  { src: "/videos/shake-draw.mp4", type: "video/mp4" },
-  { src: "/videos/shake-draw.mp4.mp4", type: "video/mp4" },
-  { src: "/videos/shake-draw.webm", type: "video/webm" }
+  { src: withBase("/videos/shake-draw.mp4"), type: "video/mp4" },
+  { src: withBase("/videos/shake-draw.mp4.mp4"), type: "video/mp4" },
+  { src: withBase("/videos/shake-draw.webm"), type: "video/webm" }
 ] as const satisfies readonly ShakeVideoSource[];
 
 export const TRACK_ORDER: readonly Track[] = ["trad", "mmm", "yesno"] as const;
@@ -43,15 +44,15 @@ export const TRACK_VISUALS: Record<Track, TrackVisualConfig> = {
     softSurface: "rgba(227,121,112,0.09)",
     shadow: "rgba(227,121,112,0.18)",
     readyImageSources: [
-      "/images/ready-trad.jpg.png",
-      "/images/ready-trad.jpg",
-      "/images/shake-trad.webm.png",
+      withBase("/images/ready-trad.jpg.png"),
+      withBase("/images/ready-trad.jpg"),
+      withBase("/images/shake-trad.webm.png"),
       ...SHARED_READY_IMAGE_FALLBACK
     ],
     shakeVideoSources: [
-      { src: "/videos/shake-trad.mp4.mp4", type: "video/mp4" },
-      { src: "/videos/shake-trad.mp4", type: "video/mp4" },
-      { src: "/videos/shake-trad.webm", type: "video/webm" },
+      { src: withBase("/videos/shake-trad.mp4.mp4"), type: "video/mp4" },
+      { src: withBase("/videos/shake-trad.mp4"), type: "video/mp4" },
+      { src: withBase("/videos/shake-trad.webm"), type: "video/webm" },
       ...SHARED_SHAKE_VIDEO_FALLBACK
     ]
   },
@@ -65,15 +66,15 @@ export const TRACK_VISUALS: Record<Track, TrackVisualConfig> = {
     softSurface: "rgba(158,122,99,0.09)",
     shadow: "rgba(158,122,99,0.18)",
     readyImageSources: [
-      "/images/ready-mmm.jpg.png",
-      "/images/ready-mmm.jpg",
-      "/images/shake-mmm.webm.png",
+      withBase("/images/ready-mmm.jpg.png"),
+      withBase("/images/ready-mmm.jpg"),
+      withBase("/images/shake-mmm.webm.png"),
       ...SHARED_READY_IMAGE_FALLBACK
     ],
     shakeVideoSources: [
-      { src: "/videos/shake-mmm.mp4.mp4", type: "video/mp4" },
-      { src: "/videos/shake-mmm.mp4", type: "video/mp4" },
-      { src: "/videos/shake-mmm.webm", type: "video/webm" },
+      { src: withBase("/videos/shake-mmm.mp4.mp4"), type: "video/mp4" },
+      { src: withBase("/videos/shake-mmm.mp4"), type: "video/mp4" },
+      { src: withBase("/videos/shake-mmm.webm"), type: "video/webm" },
       ...SHARED_SHAKE_VIDEO_FALLBACK
     ]
   },
@@ -87,15 +88,15 @@ export const TRACK_VISUALS: Record<Track, TrackVisualConfig> = {
     softSurface: "rgba(231,154,74,0.09)",
     shadow: "rgba(231,154,74,0.18)",
     readyImageSources: [
-      "/images/ready-yesno.jpg.png",
-      "/images/ready-yesno.jpg",
-      "/images/shake-yesno.webm.png",
+      withBase("/images/ready-yesno.jpg.png"),
+      withBase("/images/ready-yesno.jpg"),
+      withBase("/images/shake-yesno.webm.png"),
       ...SHARED_READY_IMAGE_FALLBACK
     ],
     shakeVideoSources: [
-      { src: "/videos/shake-yesno.mp4.mp4", type: "video/mp4" },
-      { src: "/videos/shake-yesno.mp4", type: "video/mp4" },
-      { src: "/videos/shake-yesno.webm", type: "video/webm" },
+      { src: withBase("/videos/shake-yesno.mp4.mp4"), type: "video/mp4" },
+      { src: withBase("/videos/shake-yesno.mp4"), type: "video/mp4" },
+      { src: withBase("/videos/shake-yesno.webm"), type: "video/webm" },
       ...SHARED_SHAKE_VIDEO_FALLBACK
     ]
   }
