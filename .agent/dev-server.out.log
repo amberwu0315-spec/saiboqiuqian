@@ -335,3 +335,11 @@ Re-optimizing dependencies because lockfile has changed
 [2m22:55:40[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/ShareFortuneCard.tsx, /src/components/FortuneCardPreview.tsx, /src/components/ResultCard.tsx[22m
 [2m22:56:14[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/ShareFortuneCard.tsx, /src/components/FortuneCardPreview.tsx, /src/components/ResultCard.tsx[22m
 [2m22:57:30[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ResultCard.tsx, /src/index.css[22m
+[2m23:31:27[22m [36m[1m[vite][22m[39m [32mvite.config.js changed, restarting server...[39m
+[2m23:31:28[22m [36m[1m[vite][22m[39m server restarted.
+[2m23:31:42[22m [36m[1m[vite][22m[39m [32mvite.config.ts changed, restarting server...[39m
+[2m23:31:42[22m [36m[1m[vite][22m[39m server restarted.
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5173[22m/saiboqiuqian/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://172.18.0.1:[1m5173[22m/saiboqiuqian/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.50.74:[1m5173[22m/saiboqiuqian/[39m
