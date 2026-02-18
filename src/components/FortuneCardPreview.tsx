@@ -88,6 +88,8 @@ export function StationeryCardPreview({
   };
   const positiveText = splitTagLines(payload.positiveTags);
   const negativeText = splitTagLines(payload.negativeTags);
+  const splitTopLine = payload.topLine.trim();
+  const showSplitTypeLabel = payload.cardType === "random";
   const countChars = (value: string): number => Array.from(value.trim()).length;
   const longestTagChars = Math.max(
     countChars(positiveText.primary),
@@ -155,23 +157,19 @@ export function StationeryCardPreview({
             src={imageSrc}
             alt=""
             aria-hidden="true"
-            className={`absolute inset-0 h-full w-full object-cover ${
-              isOverlayLayout ? "" : "saturate-[0.56] contrast-[0.84] brightness-[0.95]"
-            }`}
+            className="absolute inset-0 h-full w-full object-cover"
             loading="eager"
             decoding="async"
             onError={() => setImageIndex((idx) => (idx < payload.imageSources.length ? idx + 1 : idx))}
           />
         )}
-        <div aria-hidden="true" className={`pointer-events-none absolute inset-0 ${typeStyle.patternClass}`} />
-        <div
-          aria-hidden="true"
-          className={`pointer-events-none absolute inset-0 ${
-            isOverlayLayout
-              ? "bg-gradient-to-b from-white/18 via-white/20 to-white/24"
-              : "bg-gradient-to-b from-black/12 via-black/[0.03] to-black/18"
-          }`}
-        />
+        {isOverlayLayout && <div aria-hidden="true" className={`pointer-events-none absolute inset-0 ${typeStyle.patternClass}`} />}
+        {isOverlayLayout && (
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/18 via-white/20 to-white/24"
+          />
+        )}
         {isOverlayLayout && (
           <div
             aria-hidden="true"
@@ -179,28 +177,26 @@ export function StationeryCardPreview({
           />
         )}
 
-        <p
-          className={`absolute z-[2] text-[clamp(1rem,2.1dvh,1.35rem)] leading-[1.95] text-[#222] [text-orientation:mixed] [writing-mode:vertical-rl] ${
-            isOverlayLayout ? "left-[10px] top-[10px] font-medium" : "left-3 top-4"
-          }`}
-          style={{ textShadow: "0 1px 8px rgba(255,255,255,0.45)" }}
-        >
-          {payload.topLine}
-        </p>
+        {isOverlayLayout && (
+          <p
+            className="absolute left-[10px] top-[10px] z-[2] text-[clamp(1rem,2.1dvh,1.35rem)] font-medium leading-[1.95] text-[#222] [text-orientation:mixed] [writing-mode:vertical-rl]"
+            style={{ textShadow: "0 1px 8px rgba(255,255,255,0.45)" }}
+          >
+            {payload.topLine}
+          </p>
+        )}
 
-        {payload.cardType === "decision" && payload.decision && (
+        {isOverlayLayout && payload.cardType === "decision" && payload.decision && (
           <span
-            className={`absolute right-4 rounded-full bg-[#ffffffda] px-3 py-1 text-xs font-semibold tracking-[0.06em] text-[#3f384f] ${
-              isOverlayLayout ? "bottom-[clamp(10.5rem,22dvh,13rem)]" : "bottom-[88px]"
-            }`}
+            className="absolute right-4 bottom-[clamp(10.5rem,22dvh,13rem)] rounded-full bg-[#ffffffda] px-3 py-1 text-xs font-semibold tracking-[0.06em] text-[#3f384f]"
           >
             {decisionTextByType[payload.decision]}
           </span>
         )}
 
         <div
-          className={`absolute z-[2] text-right text-white ${
-            isOverlayLayout ? "right-[10px] top-[10px]" : "bottom-3 right-4"
+          className={`absolute z-[2] text-white ${
+            isOverlayLayout ? "right-[10px] top-[10px] text-right" : "bottom-3 left-4 text-left"
           }`}
           style={{ textShadow: "0 2px 14px rgba(0,0,0,0.38)" }}
         >
@@ -212,8 +208,54 @@ export function StationeryCardPreview({
       </div>
 
       {!isOverlayLayout && (
-        <div className="relative bg-[#ececec] px-0 pb-[clamp(0.95rem,2.2dvh,1.4rem)] pt-[clamp(0.9rem,2dvh,1.2rem)]">
-          <div className={tagsContainerClass}>{tagRows}</div>
+        <div className="bg-[#ececec] px-4 pb-[clamp(0.95rem,2.2dvh,1.4rem)] pt-[clamp(0.9rem,2dvh,1.2rem)]">
+          <div className="flex flex-col gap-[16px]">
+            <div className="flex items-start justify-start gap-[4px]">
+              {showSplitTypeLabel && (
+                <span className="inline-flex shrink-0 rounded border border-[#b6aa89] px-[6px] py-[1px] text-[clamp(0.7rem,1.35dvh,0.8rem)] leading-[1.4] text-[#4f4337]">
+                  {payload.typeLabel}
+                </span>
+              )}
+              {payload.cardType === "decision" && payload.decision && (
+                <span className="inline-flex shrink-0 self-center rounded-full border border-[#b6aa89] bg-[#f8f2e8] px-[8px] py-[1px] text-[clamp(0.7rem,1.35dvh,0.8rem)] leading-[1.4] text-[#4f4337]">
+                  {decisionTextByType[payload.decision]}
+                </span>
+              )}
+              <p className="min-w-0 whitespace-normal break-all text-left text-[clamp(1rem,2.15dvh,1.28rem)] leading-[1.5] tracking-[0.01em] text-[#111]">
+                {splitTopLine}
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-[12px]">
+              <div className="flex min-w-0 items-start gap-[clamp(0.4rem,0.85dvh,0.55rem)]">
+                <span className="inline-flex h-[clamp(2.1rem,5dvh,2.7rem)] w-[clamp(2.1rem,5dvh,2.7rem)] shrink-0 items-center justify-center rounded-full border border-[#b6aa89] text-[clamp(1.35rem,3dvh,1.85rem)] leading-none text-[#101010]">
+                  宜
+                </span>
+                <div className="min-w-0 text-left text-[#101010]">
+                  <p className="whitespace-normal break-all text-[clamp(0.88rem,1.95dvh,1.22rem)] leading-[1.45] tracking-[0.02em]">{positiveText.primary}</p>
+                  {positiveText.secondary && (
+                    <p className="mt-[clamp(0.12rem,0.28dvh,0.2rem)] whitespace-normal break-all text-[clamp(0.68rem,1.25dvh,0.88rem)] leading-[1.4] tracking-[0.05em]">
+                      {positiveText.secondary}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div className="flex min-w-0 items-start justify-end gap-[clamp(0.4rem,0.85dvh,0.55rem)]">
+                <span className="inline-flex h-[clamp(2.1rem,5dvh,2.7rem)] w-[clamp(2.1rem,5dvh,2.7rem)] shrink-0 items-center justify-center rounded-full border border-[#b6aa89] text-[clamp(1.35rem,3dvh,1.85rem)] leading-none text-[#101010]">
+                  忌
+                </span>
+                <div className="min-w-0 text-left text-[#101010]">
+                  <p className="whitespace-normal break-all text-[clamp(0.88rem,1.95dvh,1.22rem)] leading-[1.45] tracking-[0.02em]">{negativeText.primary}</p>
+                  {negativeText.secondary && (
+                    <p className="mt-[clamp(0.12rem,0.28dvh,0.2rem)] whitespace-normal break-all text-[clamp(0.68rem,1.25dvh,0.88rem)] leading-[1.4] tracking-[0.05em]">
+                      {negativeText.secondary}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>
