@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getTrackVisual } from "../constants/tracks";
 import { THEMES, type ThemeKey } from "../theme";
 import type { Track } from "../types";
@@ -17,6 +17,8 @@ export default function ShakeStage({ theme, mode, showPop, onMediaComplete }: Sh
   const visual = getTrackVisual(mode);
   const [videoSourceIndex, setVideoSourceIndex] = useState(0);
   const [fallbackImageIndex, setFallbackImageIndex] = useState(0);
+  const [forceMutedPlayback, setForceMutedPlayback] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const activeVideoSource =
     videoSourceIndex < visual.shakeVideoSources.length ? visual.shakeVideoSources[videoSourceIndex] : null;
   const useStationeryVideo = theme === "stationery" && Boolean(activeVideoSource);
@@ -26,6 +28,7 @@ export default function ShakeStage({ theme, mode, showPop, onMediaComplete }: Sh
   useEffect(() => {
     setVideoSourceIndex(0);
     setFallbackImageIndex(0);
+    setForceMutedPlayback(false);
   }, [mode]);
 
   useEffect(() => {
@@ -36,6 +39,57 @@ export default function ShakeStage({ theme, mode, showPop, onMediaComplete }: Sh
     return () => window.clearTimeout(timer);
   }, [theme, onMediaComplete, activeVideoSource]);
 
+  useEffect(() => {
+    if (!useStationeryVideo) {
+      return;
+    }
+
+    const videoEl = videoRef.current;
+    if (!videoEl) {
+      return;
+    }
+
+    let cancelled = false;
+
+    const ensurePlayWithSound = async () => {
+      try {
+        videoEl.muted = false;
+        await videoEl.play();
+        if (!cancelled) {
+          setForceMutedPlayback(false);
+        }
+      } catch {
+        videoEl.muted = true;
+        if (!cancelled) {
+          setForceMutedPlayback(true);
+        }
+        try {
+          await videoEl.play();
+        } catch {
+          // Ignore: browser may still block autoplay.
+        }
+      }
+    };
+
+    void ensurePlayWithSound();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [useStationeryVideo, activeVideoSource?.src]);
+
+  const handleEnableSound = () => {
+    const videoEl = videoRef.current;
+    if (!videoEl) {
+      return;
+    }
+
+    videoEl.muted = false;
+    videoEl.volume = 1;
+    void videoEl.play();
+    setForceMutedPlayback(false);
+  };
+
   return (
     <section className={`${t.panel} flex min-h-0 flex-1 flex-col`}>
       {theme === "stationery" && (
@@ -43,16 +97,28 @@ export default function ShakeStage({ theme, mode, showPop, onMediaComplete }: Sh
           <p className="text-sm tracking-[0.06em]" style={{ color: visual.accent }}>
             抽签进行中
           </p>
-          {useStationeryVideo && (
-            <button
-              type="button"
-              className="h-7 rounded-lg border bg-white px-2.5 text-[11px] text-[#66584a] transition hover:bg-[#f7f1e8] active:translate-y-[1px]"
-              style={{ borderColor: visual.accent }}
-              onClick={onMediaComplete}
-            >
-              跳过视频
-            </button>
-          )}
+          <div className="flex items-center gap-2">
+            {useStationeryVideo && forceMutedPlayback && (
+              <button
+                type="button"
+                className="h-7 rounded-lg border bg-white px-2.5 text-[11px] text-[#66584a] transition hover:bg-[#f7f1e8] active:translate-y-[1px]"
+                style={{ borderColor: visual.accent }}
+                onClick={handleEnableSound}
+              >
+                开启声音
+              </button>
+            )}
+            {useStationeryVideo && (
+              <button
+                type="button"
+                className="h-7 rounded-lg border bg-white px-2.5 text-[11px] text-[#66584a] transition hover:bg-[#f7f1e8] active:translate-y-[1px]"
+                style={{ borderColor: visual.accent }}
+                onClick={onMediaComplete}
+              >
+                跳过视频
+              </button>
+            )}
+          </div>
         </div>
       )}
       <div className={`${t.stage} min-h-0 flex-[1.15] px-1`}>
@@ -73,10 +139,11 @@ export default function ShakeStage({ theme, mode, showPop, onMediaComplete }: Sh
             <div className="h-full w-full overflow-hidden rounded-lg bg-[#f7efe6]">
               {useStationeryVideo ? (
                 <video
+                  ref={videoRef}
                   key={activeVideoSource?.src}
                   className="block h-full w-full object-cover"
                   autoPlay
-                  muted
+                  muted={forceMutedPlayback}
                   playsInline
                   preload="auto"
                   onEnded={onMediaComplete}
