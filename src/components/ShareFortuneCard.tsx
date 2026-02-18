@@ -10,13 +10,27 @@ interface ShareFortuneCardProps {
   drawAt: Date;
   onReroll: () => void;
   onClose: () => void;
+  captureOnly?: boolean;
+  autoCaptureToken?: number;
+  onAutoCaptureDone?: (success: boolean) => void;
 }
 
-export default function ShareFortuneCard({ theme, result, drawAt, onReroll, onClose }: ShareFortuneCardProps) {
+export default function ShareFortuneCard({
+  theme,
+  result,
+  drawAt,
+  onReroll,
+  onClose,
+  captureOnly = false,
+  autoCaptureToken,
+  onAutoCaptureDone
+}: ShareFortuneCardProps) {
   const payload = buildShareCardPayload(result, drawAt);
   const previewRef = useRef<HTMLDivElement>(null);
+  const lastAutoCaptureTokenRef = useRef<number | null>(null);
   const [exporting, setExporting] = useState(false);
   const [toastText, setToastText] = useState("");
+  const isAutoCaptureMode = autoCaptureToken !== undefined;
 
   const handleDownload = async () => {
     if (exporting) {
@@ -34,6 +48,42 @@ export default function ShareFortuneCard({ theme, result, drawAt, onReroll, onCl
   };
 
   useEffect(() => {
+    if (!isAutoCaptureMode || autoCaptureToken === undefined) {
+      return;
+    }
+    if (lastAutoCaptureTokenRef.current === autoCaptureToken) {
+      return;
+    }
+    lastAutoCaptureTokenRef.current = autoCaptureToken;
+
+    let cancelled = false;
+    const run = async () => {
+      try {
+        setExporting(true);
+        await new Promise<void>((resolve) => {
+          window.requestAnimationFrame(() => resolve());
+        });
+        await downloadShareCardPng(payload, theme, previewRef.current);
+        if (!cancelled) {
+          onAutoCaptureDone?.(true);
+        }
+      } catch {
+        if (!cancelled) {
+          onAutoCaptureDone?.(false);
+        }
+      } finally {
+        if (!cancelled) {
+          setExporting(false);
+        }
+      }
+    };
+    void run();
+    return () => {
+      cancelled = true;
+    };
+  }, [autoCaptureToken, isAutoCaptureMode, onAutoCaptureDone, payload, theme]);
+
+  useEffect(() => {
     if (!toastText) {
       return;
     }
@@ -43,40 +93,35 @@ export default function ShareFortuneCard({ theme, result, drawAt, onReroll, onCl
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/65 px-4 py-6 backdrop-blur-[2px]">
-      <div
-        className={`relative w-full shadow-[0_18px_40px_rgba(0,0,0,0.35)] ${
-          theme === "pixel"
-            ? "max-w-[440px] border-2 border-lime-300/70 bg-zinc-950 p-4 shadow-[0_0_0_1px_rgba(163,230,53,0.25)_inset,0_18px_40px_rgba(0,0,0,0.45)]"
-            : "max-w-[560px] rounded-lg border border-[#d9cec1]/70 bg-[#fdf8f2] p-5"
-        }`}
-      >
-        <button
-          type="button"
-          aria-label="关闭签图弹窗"
-          className={`absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center text-lg leading-none ${
-              theme === "pixel"
-                ? "border-2 border-zinc-500 bg-zinc-900 text-zinc-200 hover:border-lime-300/70 hover:text-lime-200"
-              : "rounded-lg border border-[#d8ccc0]/75 bg-white text-[#6b5c4f] hover:bg-[#f7f1e8]"
-          }`}
-          onClick={onClose}
-        >
-          ✕
-        </button>
-
-        <div className="pt-8">
-          <div ref={previewRef} className={theme === "pixel" ? "mx-auto w-full max-w-[340px] aspect-[9/16]" : "mx-auto w-full max-w-[500px]"}>
+      <div className="w-full max-w-[560px]">
+        <div className="relative mx-auto w-full max-w-[360px] aspect-[9/16]">
+          {!captureOnly && (
+            <button
+              type="button"
+              aria-label="关闭签图弹窗"
+              className={`absolute right-2 top-2 z-10 flex h-9 w-9 items-center justify-center text-lg leading-none ${
+                theme === "pixel"
+                  ? "border-2 border-white/90 bg-zinc-900/70 text-white hover:bg-zinc-800/80"
+                  : "rounded-lg border-2 border-white/90 bg-black/20 text-white hover:bg-black/35"
+              }`}
+              onClick={onClose}
+            >
+              ✕
+            </button>
+          )}
+          <div ref={previewRef} className="h-full w-full">
             <FortuneCardPreview theme={theme} payload={payload} drawAt={drawAt} />
           </div>
         </div>
 
-        <div className="mt-4">
-          <div className="grid grid-cols-2 gap-3">
+        {!captureOnly && (
+          <div className="mx-auto mt-3 grid w-full max-w-[360px] grid-cols-2 gap-2">
             <button
               type="button"
               className={`h-11 text-sm font-medium active:translate-y-[1px] ${
                 theme === "pixel"
-                  ? "border-2 border-zinc-500 bg-zinc-900 text-zinc-100 hover:bg-zinc-800"
-                  : "rounded-lg border border-[#d8ccc0]/75 bg-white/92 text-[#574b3f] hover:bg-[#f7f1e8]"
+                  ? "border-2 border-white/85 bg-transparent text-white hover:bg-white/10"
+                  : "rounded-lg border-2 border-white/90 bg-transparent text-white hover:bg-white/10"
               }`}
               onClick={onReroll}
             >
@@ -101,13 +146,13 @@ export default function ShareFortuneCard({ theme, result, drawAt, onReroll, onCl
               onClick={handleDownload}
               disabled={exporting}
             >
-              {exporting ? "保存中…" : "保存至相册"}
+              {exporting ? "保存中…" : "💾 保存至相册"}
             </button>
           </div>
-        </div>
+        )}
       </div>
 
-      {toastText && (
+      {toastText && !captureOnly && (
         <div
           className={`pointer-events-none fixed bottom-6 left-1/2 -translate-x-1/2 px-3 py-2 text-xs ${
               theme === "pixel"

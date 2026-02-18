@@ -39,7 +39,7 @@ export default function ShakeStage({ theme, mode, showPop, onMediaComplete }: Sh
   return (
     <section className={`${t.panel} flex min-h-0 flex-1 flex-col`}>
       {theme === "stationery" && (
-        <div className="mb-2 flex shrink-0 items-center justify-between gap-3 px-1">
+        <div className="mb-1.5 flex shrink-0 items-center justify-between gap-3 px-1">
           <p className="text-sm tracking-[0.06em]" style={{ color: visual.accent }}>
             抽签进行中
           </p>
@@ -55,7 +55,7 @@ export default function ShakeStage({ theme, mode, showPop, onMediaComplete }: Sh
           )}
         </div>
       )}
-      <div className={`${t.stage} min-h-0 flex-1`}>
+      <div className={`${t.stage} min-h-0 flex-[1.15] px-1`}>
         {theme === "pixel" && (
           <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(163,230,53,0.08)_1px,transparent_1px)] bg-[length:100%_22px] opacity-35" />
         )}
@@ -69,34 +69,40 @@ export default function ShakeStage({ theme, mode, showPop, onMediaComplete }: Sh
         >
           {theme === "pixel" ? (
             <TubePixel shaking />
-          ) : useStationeryVideo ? (
-            <video
-              key={activeVideoSource?.src}
-              className="block h-full w-full rounded-lg bg-[#f7efe6] object-contain"
-              autoPlay
-              muted
-              playsInline
-              preload="auto"
-              onEnded={onMediaComplete}
-              onError={() =>
-                setVideoSourceIndex((idx) => (idx < visual.shakeVideoSources.length ? idx + 1 : idx))
-              }
-              aria-hidden="true"
-            >
-              {activeVideoSource && <source src={activeVideoSource.src} type={activeVideoSource.type} />}
-            </video>
-          ) : !noFallbackImage ? (
-            <img
-              src={fallbackImageSrc}
-              alt=""
-              aria-hidden="true"
-              className="block h-full w-full rounded-lg bg-[#f7efe6] object-contain"
-              loading="eager"
-              decoding="async"
-              onError={() => setFallbackImageIndex((idx) => (idx < visual.readyImageSources.length ? idx + 1 : idx))}
-            />
           ) : (
-            <TubeStationery shaking />
+            <div className="h-full w-full overflow-hidden rounded-lg bg-[#f7efe6]">
+              {useStationeryVideo ? (
+                <video
+                  key={activeVideoSource?.src}
+                  className="block h-full w-full object-cover"
+                  autoPlay
+                  muted
+                  playsInline
+                  preload="auto"
+                  onEnded={onMediaComplete}
+                  onError={() =>
+                    setVideoSourceIndex((idx) => (idx < visual.shakeVideoSources.length ? idx + 1 : idx))
+                  }
+                  aria-hidden="true"
+                >
+                  {activeVideoSource && <source src={activeVideoSource.src} type={activeVideoSource.type} />}
+                </video>
+              ) : !noFallbackImage ? (
+                <img
+                  src={fallbackImageSrc}
+                  alt=""
+                  aria-hidden="true"
+                  className="block h-full w-full object-cover"
+                  loading="eager"
+                  decoding="async"
+                  onError={() => setFallbackImageIndex((idx) => (idx < visual.readyImageSources.length ? idx + 1 : idx))}
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center">
+                  <TubeStationery shaking />
+                </div>
+              )}
+            </div>
           )}
         </div>
 
@@ -110,7 +116,7 @@ export default function ShakeStage({ theme, mode, showPop, onMediaComplete }: Sh
           />
         )}
       </div>
-      {theme === "stationery" && <p className="mt-2 shrink-0 text-center text-xs text-[#7a6b5e]">请稍等，签文正在出现。</p>}
+      {theme === "stationery" && <p className="mt-1.5 shrink-0 text-center text-xs text-[#7a6b5e]">请稍等，签文正在出现。</p>}
     </section>
   );
 }

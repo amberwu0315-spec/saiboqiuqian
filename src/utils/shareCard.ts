@@ -1,10 +1,18 @@
 import { getTrackVisual } from "../constants/tracks";
-import { getMmmCopyTypeByFortuneId } from "../constants/mmmCopyTypes";
-import type { DrawResult, Track } from "../types";
+import type { DecisionValue, DrawResult, Track } from "../types";
 import type { ThemeKey } from "../theme";
 
 export type ShareCardPayload = {
   track: Track;
+  cardType: "traditional" | "random" | "decision";
+  typeLabel: string;
+  topLine: string;
+  themeWord: string;
+  detailText: string;
+  positiveTags: string[];
+  negativeTags: string[];
+  decision?: DecisionValue;
+  imageSources: readonly string[];
   modeLabel: string;
   title: string;
   lines: string[];
@@ -220,17 +228,30 @@ export function formatLunarDate(date: Date): string {
   }
 }
 
-const SHARE_SOURCE_LINE = "新的一年共勉啦~";
+const SHARE_SOURCE_LINE = "新的一年共勉啦～";
 
 export function buildShareCardPayload(result: DrawResult, drawAt: Date): ShareCardPayload {
   const visual = getTrackVisual(result.track);
+  const typeLabelByTrack: Record<Track, ShareCardPayload["typeLabel"]> = {
+    trad: "签文",
+    mmm: "随心",
+    yesno: "问答"
+  };
 
   if (result.track === "trad") {
     return {
       track: result.track,
+      cardType: "traditional",
+      typeLabel: typeLabelByTrack[result.track],
+      topLine: result.fortune.topLine,
+      themeWord: result.fortune.themeWord,
+      detailText: result.fortune.detailText,
+      positiveTags: [...result.fortune.tags.positive],
+      negativeTags: [...result.fortune.tags.negative],
+      imageSources: visual.readyImageSources,
       modeLabel: visual.modeLabel,
-      title: `第 ${result.fortune.id} 签 · ${result.fortune.level}`,
-      lines: [result.fortune.text],
+      title: result.fortune.themeWord,
+      lines: [result.fortune.detailText],
       lunarDate: formatLunarDate(drawAt),
       solarDate: formatSolarDate(drawAt),
       timestamp: formatTimestamp(drawAt),
@@ -243,9 +264,18 @@ export function buildShareCardPayload(result: DrawResult, drawAt: Date): ShareCa
   if (result.track === "yesno") {
     return {
       track: result.track,
+      cardType: "decision",
+      typeLabel: typeLabelByTrack[result.track],
+      topLine: result.fortune.topLine,
+      themeWord: result.fortune.themeWord,
+      detailText: result.fortune.detailText,
+      positiveTags: [...result.fortune.tags.positive],
+      negativeTags: [...result.fortune.tags.negative],
+      decision: result.fortune.decision,
+      imageSources: visual.readyImageSources,
       modeLabel: visual.modeLabel,
-      title: result.fortune.text,
-      lines: [],
+      title: result.fortune.themeWord,
+      lines: [result.fortune.detailText],
       lunarDate: formatLunarDate(drawAt),
       solarDate: formatSolarDate(drawAt),
       timestamp: formatTimestamp(drawAt),
@@ -257,9 +287,17 @@ export function buildShareCardPayload(result: DrawResult, drawAt: Date): ShareCa
 
   return {
     track: result.track,
+    cardType: "random",
+    typeLabel: typeLabelByTrack[result.track],
+    topLine: result.fortune.topLine,
+    themeWord: result.fortune.themeWord,
+    detailText: result.fortune.detailText,
+    positiveTags: [...result.fortune.tags.positive],
+    negativeTags: [...result.fortune.tags.negative],
+    imageSources: visual.readyImageSources,
     modeLabel: visual.modeLabel,
-    title: getMmmCopyTypeByFortuneId(result.fortune.id)?.label ?? visual.name,
-    lines: [result.fortune.text],
+    title: result.fortune.themeWord,
+    lines: [result.fortune.detailText],
     lunarDate: formatLunarDate(drawAt),
     solarDate: formatSolarDate(drawAt),
     timestamp: formatTimestamp(drawAt),
@@ -505,7 +543,7 @@ async function loadImage(src: string): Promise<HTMLImageElement> {
     const image = new Image();
     image.decoding = "async";
     image.onload = () => resolve(image);
-    image.onerror = () => reject(new Error(`图片加载失败: ${src}`));
+    image.onerror = () => reject(new Error(`图片加载失败：${src}`));
     image.src = src;
   });
 }
@@ -521,183 +559,64 @@ async function loadFirstAvailableImage(sources: readonly string[]): Promise<HTML
   return null;
 }
 
-async function elementToPngBlob(element: HTMLElement, payload: ShareCardPayload): Promise<Blob> {
+async function waitForElementAssets(element: HTMLElement): Promise<void> {
+  const fontSet = (document as Document & { fonts?: FontFaceSet }).fonts;
+  if (fontSet) {
+    try {
+      await fontSet.ready;
+    } catch {
+      // Ignore font readiness failures and continue.
+    }
+  }
+
+  const images = Array.from(element.querySelectorAll("img"));
+  if (images.length > 0) {
+    await Promise.all(
+      images.map(
+        (image) =>
+          new Promise<void>((resolve) => {
+            if (image.complete && image.naturalWidth > 0) {
+              resolve();
+              return;
+            }
+            const done = () => {
+              image.removeEventListener("load", done);
+              image.removeEventListener("error", done);
+              resolve();
+            };
+            image.addEventListener("load", done, { once: true });
+            image.addEventListener("error", done, { once: true });
+          })
+      )
+    );
+  }
+
+  await new Promise<void>((resolve) => {
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => resolve());
+    });
+  });
+}
+
+async function elementToPngBlob(element: HTMLElement): Promise<Blob> {
   const { default: html2canvas } = await import("html2canvas");
+  await waitForElementAssets(element);
   const captureAttr = "data-share-capture-root";
   element.setAttribute(captureAttr, "true");
   let snapshot: HTMLCanvasElement;
   try {
     snapshot = await html2canvas(element, {
       backgroundColor: null,
-      scale: Math.max(2, window.devicePixelRatio || 1),
+      scale: Math.max(3, window.devicePixelRatio || 1),
       useCORS: true,
-      logging: false,
-      onclone: (doc) => {
-        const clonedRoot = doc.querySelector(`[${captureAttr}="true"]`) as HTMLElement | null;
-        if (!clonedRoot) {
-          return;
-        }
-        clonedRoot.style.background = "transparent";
-        clonedRoot.style.overflow = "hidden";
-        const clonedCard = clonedRoot.firstElementChild as HTMLElement | null;
-        if (clonedCard) {
-          clonedCard.style.background = "transparent";
-          clonedCard.style.backgroundImage = "none";
-          clonedCard.style.boxShadow = "none";
-          clonedCard.style.transform = "scale(1.1)";
-          clonedCard.style.transformOrigin = "top center";
-          clonedCard.style.borderColor = "rgba(255,255,255,0.48)";
-
-          const sectionElements = Array.from(clonedCard.children) as HTMLElement[];
-          const modeEl = sectionElements[0];
-          const titleEl = sectionElements[1];
-          const dateEl = sectionElements[2];
-          const linesEl = sectionElements[3];
-          const footerEl = sectionElements[4];
-
-          if (modeEl) {
-            modeEl.style.color = "rgba(255,255,255,0.82)";
-            modeEl.style.fontSize = "15px";
-            modeEl.style.letterSpacing = "0.03em";
-            modeEl.style.marginTop = "0px";
-          }
-
-          if (titleEl) {
-            titleEl.style.color = "rgba(255,255,255,0.98)";
-            titleEl.style.fontSize = "48px";
-            titleEl.style.fontWeight = "700";
-            titleEl.style.lineHeight = "1.2";
-            titleEl.style.marginTop = "16px";
-          }
-
-          if (dateEl) {
-            dateEl.style.color = "rgba(255,255,255,0.76)";
-            dateEl.style.fontSize = "14px";
-            dateEl.style.marginTop = "10px";
-          }
-
-          if (linesEl) {
-            linesEl.style.color = "rgba(255,255,255,0.94)";
-            linesEl.style.fontSize = "23px";
-            linesEl.style.lineHeight = "1.8";
-            linesEl.style.marginTop = "28px";
-          }
-
-          if (footerEl) {
-            footerEl.style.color = "rgba(255,255,255,0.72)";
-            footerEl.style.fontSize = "13px";
-            footerEl.style.marginTop = "32px";
-            footerEl.style.paddingTop = "16px";
-            footerEl.style.borderTopColor = "rgba(255,255,255,0.35)";
-          }
-        }
-      }
+      logging: false
     });
   } finally {
     element.removeAttribute(captureAttr);
   }
 
-  const canvas = document.createElement("canvas");
-  canvas.width = CARD_WIDTH;
-  canvas.height = CARD_HEIGHT;
-
-  const ctx = canvas.getContext("2d");
-  if (!ctx) {
-    throw new Error("无法创建画布");
-  }
-
-  const visual = getTrackVisual(payload.track);
-  const backgroundImage = await loadFirstAvailableImage(visual.readyImageSources);
-  const fullFrame: DrawFrame = { x: 0, y: 0, width: CARD_WIDTH, height: CARD_HEIGHT };
-
-  if (backgroundImage) {
-    drawImageCover(ctx, backgroundImage, fullFrame);
-  } else {
-    const fallbackGradient = ctx.createLinearGradient(0, 0, 0, CARD_HEIGHT);
-    fallbackGradient.addColorStop(0, "#f4e4d5");
-    fallbackGradient.addColorStop(1, "#ead9c5");
-    ctx.fillStyle = fallbackGradient;
-    ctx.fillRect(0, 0, CARD_WIDTH, CARD_HEIGHT);
-  }
-
-  ctx.fillStyle = "rgba(255, 251, 245, 0.22)";
-  ctx.fillRect(0, 0, CARD_WIDTH, CARD_HEIGHT);
-
-  const dimOverlay = ctx.createLinearGradient(0, 0, 0, CARD_HEIGHT);
-  dimOverlay.addColorStop(0, "rgba(22, 13, 6, 0.16)");
-  dimOverlay.addColorStop(0.45, "rgba(22, 13, 6, 0.08)");
-  dimOverlay.addColorStop(1, "rgba(22, 13, 6, 0.14)");
-  ctx.fillStyle = dimOverlay;
-  ctx.fillRect(0, 0, CARD_WIDTH, CARD_HEIGHT);
-
-  const centerX = CARD_WIDTH / 2;
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-
-  const headerText = "赛博求签（图一乐）";
-  ctx.font = "700 58px PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif";
-  const textWidth = ctx.measureText(headerText).width;
-  const iconGap = 72;
-  const textStartX = centerX - (textWidth + iconGap) / 2 + iconGap;
-  const iconX = textStartX - iconGap;
-  const titleY = 112;
-
-  ctx.save();
-  ctx.textAlign = "left";
-  ctx.fillStyle = "rgba(255, 251, 245, 0.98)";
-  ctx.shadowColor = "rgba(19, 11, 6, 0.42)";
-  ctx.shadowBlur = 8;
-  ctx.shadowOffsetY = 2;
-  ctx.font = "600 56px PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif";
-  ctx.fillText("🐱", iconX, titleY);
-  ctx.font = "700 58px PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif";
-  ctx.fillText(headerText, textStartX, titleY);
-  ctx.restore();
-
-  const accentRgb = hexToRgb(payload.accent) ?? [227, 121, 112];
-  const gradientTop = mixRgb(accentRgb, [255, 255, 255], 0.72);
-  const gradientMid = mixRgb(accentRgb, [255, 255, 255], 0.56);
-  const gradientBottom = mixRgb(accentRgb, [255, 255, 255], 0.34);
-
-  const contentTop = 160;
-  const contentBottom = CARD_HEIGHT - 132;
-  const contentHeight = contentBottom - contentTop;
-  const maxCardWidth = CARD_WIDTH - 64;
-  const maxCardHeight = contentHeight;
-  const frameRatio = 3 / 4;
-  let cardWidth = maxCardWidth;
-  let cardHeight = Math.round(cardWidth / frameRatio);
-  if (cardHeight > maxCardHeight) {
-    cardHeight = maxCardHeight;
-    cardWidth = Math.round(cardHeight * frameRatio);
-  }
-  const cardFrame: DrawFrame = {
-    x: Math.round((CARD_WIDTH - cardWidth) / 2),
-    y: Math.round(contentTop + (contentHeight - cardHeight) / 2),
-    width: cardWidth,
-    height: cardHeight
-  };
-
-  const contentGradient = ctx.createLinearGradient(0, cardFrame.y, 0, cardFrame.y + cardFrame.height);
-  contentGradient.addColorStop(0, rgbToRgba(gradientTop, 0.9));
-  contentGradient.addColorStop(0.52, rgbToRgba(gradientMid, 0.9));
-  contentGradient.addColorStop(1, rgbToRgba(gradientBottom, 0.9));
-  fillRoundedRect(ctx, cardFrame, 12, contentGradient);
-
-  ctx.save();
-  roundedRectPath(ctx, cardFrame, 12);
-  ctx.clip();
-  drawImageCover(ctx, snapshot, cardFrame);
-  ctx.restore();
-  strokeRoundedRect(ctx, cardFrame, 12, rgbToRgba(mixRgb(accentRgb, [255, 255, 255], 0.5), 0.95), 3);
-
-  ctx.textAlign = "center";
-  ctx.fillStyle = "rgba(255, 246, 236, 0.94)";
-  ctx.font = "400 30px PingFang SC, Microsoft YaHei, Noto Sans SC, sans-serif";
-  ctx.fillText("勉勉强强工作室 出品", centerX, CARD_HEIGHT - 66);
-
   return new Promise<Blob>((resolve, reject) => {
-    canvas.toBlob((blob) => {
+    snapshot.toBlob((blob) => {
       if (blob) {
         resolve(blob);
       } else {
@@ -711,12 +630,7 @@ export async function downloadShareCardPng(payload: ShareCardPayload, theme: The
   let pngBlob: Blob;
 
   if (sourceElement) {
-    try {
-      pngBlob = await elementToPngBlob(sourceElement, payload);
-    } catch {
-      const svg = buildShareCardSvg(payload, theme);
-      pngBlob = await svgToPngBlob(svg);
-    }
+    pngBlob = await elementToPngBlob(sourceElement);
   } else {
     const svg = buildShareCardSvg(payload, theme);
     pngBlob = await svgToPngBlob(svg);

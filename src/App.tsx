@@ -109,15 +109,8 @@ export default function App() {
       <div aria-hidden="true" className={`app-texture ${textureClassByTheme[theme]}`} />
       <div className="relative z-10 mx-auto flex h-full min-h-0 w-full max-w-2xl flex-col px-3 pt-[12px] pb-[20px] sm:px-4">
         <header
-          className="relative shrink-0 overflow-hidden rounded-lg border border-[#d9cec1]/65 bg-[#fdf9f2]/92 p-2 md:p-2.5"
+          className="relative shrink-0 overflow-hidden rounded-lg border border-[#d9cec1]/65 bg-[#fdf9f2] p-2 md:p-2.5"
         >
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background: `radial-gradient(circle at 12% 14%,rgba(255,255,255,0.8) 0,rgba(255,255,255,0) 42%),radial-gradient(circle at 88% 10%,${activeAccent}1f 0,rgba(255,255,255,0) 34%),repeating-linear-gradient(90deg,rgba(255,255,255,0.1) 0,rgba(255,255,255,0.1) 1px,transparent 1px,transparent 8px)`
-            }}
-          />
           <div aria-hidden="true" className="pointer-events-none absolute inset-x-6 bottom-0 h-px bg-gradient-to-r from-transparent via-[#d7cabd]/90 to-transparent" />
           <div className="relative w-full text-center">
             <button
@@ -128,16 +121,15 @@ export default function App() {
               <FortuneJarMark theme={theme} accent={activeAccent} />
               <span>赛博求签（图一乐）</span>
             </button>
-            <p className={`${t.sub} mt-1`}>不是为了要答案，只是想停下来想一想。</p>
-            <div className="mt-1 flex items-center justify-center gap-2 text-[11px] text-[#7f6f62]">
+            <div className="mt-[12px] flex items-center justify-center gap-2 text-[11px] text-[#7f6f62]">
               <span className="h-px w-8 bg-[#dacdc0]" />
-              <span className="rounded-full border border-[#d8ccc0]/78 bg-white/68 px-3 py-1">慢一点，也在往前走</span>
+              <span>慢一点，也在往前走</span>
               <span className="h-px w-8 bg-[#dacdc0]" />
             </div>
           </div>
         </header>
 
-        <main className="mt-[20px] mb-[50px] flex min-h-0 flex-1 flex-col overflow-hidden">
+        <main className={`mt-[20px] ${step === "result" ? "mb-[20px]" : "mb-[50px]"} flex min-h-0 flex-1 flex-col overflow-hidden`}>
           {step === "chooseMode" && <ModePicker theme={theme} onChooseMode={handleChooseMode} />}
 
           {step === "shaking" && mode && <ShakeStage theme={theme} mode={mode} showPop={showPop} onMediaComplete={finishShaking} />}

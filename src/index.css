@@ -42,4 +42,46 @@
       repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.018) 0, rgba(255, 255, 255, 0.018) 2px, transparent 2px, transparent 8px);
     opacity: 0.66;
   }
+
+  .fortune-pattern-traditional {
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        rgba(120, 101, 84, 0.07) 0,
+        rgba(120, 101, 84, 0.07) 1px,
+        transparent 1px,
+        transparent 4px
+      ),
+      linear-gradient(0deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.16));
+    opacity: 0.08;
+  }
+
+  .fortune-pattern-random {
+    background-image:
+      radial-gradient(circle at 18% 24%, rgba(86, 113, 129, 0.2) 0, rgba(86, 113, 129, 0) 18px),
+      radial-gradient(circle at 72% 30%, rgba(73, 96, 112, 0.17) 0, rgba(73, 96, 112, 0) 16px),
+      radial-gradient(circle at 46% 74%, rgba(94, 120, 137, 0.16) 0, rgba(94, 120, 137, 0) 20px),
+      radial-gradient(circle at 84% 78%, rgba(69, 93, 109, 0.16) 0, rgba(69, 93, 109, 0) 18px);
+    opacity: 0.07;
+  }
+
+  .fortune-pattern-decision {
+    background-image:
+      repeating-linear-gradient(
+        45deg,
+        rgba(88, 82, 111, 0.16) 0,
+        rgba(88, 82, 111, 0.16) 1px,
+        transparent 1px,
+        transparent 9px
+      ),
+      repeating-linear-gradient(
+        -45deg,
+        rgba(95, 88, 119, 0.14) 0,
+        rgba(95, 88, 119, 0.14) 1px,
+        transparent 1px,
+        transparent 11px
+      ),
+      radial-gradient(circle at 50% 50%, rgba(102, 94, 128, 0.2) 0, rgba(102, 94, 128, 0) 38%);
+    opacity: 0.07;
+  }
 }
