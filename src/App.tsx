@@ -105,11 +105,11 @@ export default function App() {
   };
 
   return (
-    <div className={`relative min-h-dvh ${t.appBg}`}>
+    <div className={`relative h-dvh overflow-hidden ${t.appBg}`}>
       <div aria-hidden="true" className={`app-texture ${textureClassByTheme[theme]}`} />
-      <div className="relative z-10 mx-auto flex min-h-dvh w-full max-w-2xl flex-col gap-4 px-4 py-6 sm:px-6 md:gap-5 md:py-10">
+      <div className="relative z-10 mx-auto flex h-full min-h-0 w-full max-w-2xl flex-col gap-3 px-3 py-[clamp(0.5rem,1.8dvh,1.5rem)] sm:px-5 md:gap-4 md:py-[clamp(0.75rem,2.2dvh,2rem)]">
         <header
-          className="relative overflow-hidden rounded-lg border border-[#d9cec1]/65 bg-[#fdf9f2]/92 p-3 md:p-4"
+          className="relative shrink-0 overflow-hidden rounded-lg border border-[#d9cec1]/65 bg-[#fdf9f2]/92 p-2.5 md:p-3.5"
         >
           <div
             aria-hidden="true"
@@ -128,8 +128,8 @@ export default function App() {
               <FortuneJarMark theme={theme} accent={activeAccent} />
               <span>赛博求签（图一乐）</span>
             </button>
-            <p className={`${t.sub} mt-3`}>不是为了要答案，只是想停下来想一想。</p>
-            <div className="mt-3 flex items-center justify-center gap-2 text-[11px] text-[#7f6f62]">
+            <p className={`${t.sub} mt-2`}>不是为了要答案，只是想停下来想一想。</p>
+            <div className="mt-2 flex items-center justify-center gap-2 text-[11px] text-[#7f6f62]">
               <span className="h-px w-8 bg-[#dacdc0]" />
               <span className="rounded-full border border-[#d8ccc0]/78 bg-white/68 px-3 py-1">慢一点，也在往前走</span>
               <span className="h-px w-8 bg-[#dacdc0]" />
@@ -137,7 +137,7 @@ export default function App() {
           </div>
         </header>
 
-        <main className="flex flex-1 flex-col gap-4 md:gap-5">
+        <main className="flex min-h-0 flex-1 flex-col gap-3 overflow-hidden md:gap-4">
           {step === "chooseMode" && <ModePicker theme={theme} onChooseMode={handleChooseMode} />}
 
           {step === "shaking" && mode && <ShakeStage theme={theme} mode={mode} showPop={showPop} onMediaComplete={finishShaking} />}
@@ -153,7 +153,7 @@ export default function App() {
           )}
         </main>
 
-        <footer className={`${t.footer} text-center`}>勉勉强强工作室 · 勉强开业</footer>
+        <footer className={`${t.footer} shrink-0 text-center text-[11px] leading-tight [@media(max-height:680px)]:hidden`}>勉勉强强工作室 · 勉强开业</footer>
       </div>
 
       <AboutIntentModal theme={theme} open={showAboutIntent} onClose={() => setShowAboutIntent(false)} />

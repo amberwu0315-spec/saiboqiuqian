@@ -17,9 +17,9 @@ export default function ResultCard({ theme, result, drawAt, onReroll, onSwitchMo
 
   return (
     <>
-      <section className={theme === "pixel" ? `${t.panel} flex min-h-[440px] flex-col p-4 md:p-5` : "flex min-h-[440px] flex-col"}>
-        <div className="pt-1">
-          <div className={theme === "pixel" ? "mx-auto w-full max-w-[340px] aspect-[9/16]" : "mx-auto w-full max-w-[500px]"}>
+      <section className={theme === "pixel" ? `${t.panel} flex min-h-0 flex-1 flex-col p-3 sm:p-4 md:p-5` : "flex min-h-0 flex-1 flex-col"}>
+        <div className="flex min-h-0 flex-1 items-center justify-center pt-0.5">
+          <div className={theme === "pixel" ? "mx-auto w-full max-w-[260px] aspect-[9/16]" : "mx-auto w-full max-w-[500px]"}>
             <FortuneCardPreview theme={theme} payload={payload} drawAt={drawAt} />
           </div>
         </div>
@@ -27,8 +27,8 @@ export default function ResultCard({ theme, result, drawAt, onReroll, onSwitchMo
         <div
           className={
             theme === "pixel"
-              ? "mt-auto grid grid-cols-1 gap-3 pt-5 md:grid-cols-2"
-              : "mx-auto mt-4 grid w-full max-w-[500px] grid-cols-1 gap-3 md:grid-cols-2"
+              ? "mt-auto grid shrink-0 grid-cols-1 gap-2.5 pt-3 sm:pt-4 md:grid-cols-2"
+              : "mx-auto mt-2 grid w-full max-w-[500px] shrink-0 grid-cols-1 gap-2.5 sm:mt-3 md:grid-cols-2"
           }
         >
           <button

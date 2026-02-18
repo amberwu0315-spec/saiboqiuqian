@@ -37,9 +37,9 @@ export default function ShakeStage({ theme, mode, showPop, onMediaComplete }: Sh
   }, [theme, onMediaComplete, activeVideoSource]);
 
   return (
-    <section className={`${t.panel} p-5`}>
+    <section className={`${t.panel} flex min-h-0 flex-1 flex-col p-3 sm:p-4 md:p-5`}>
       {theme === "stationery" && (
-        <div className="mb-3 flex items-center justify-between gap-3">
+        <div className="mb-2 flex shrink-0 items-center justify-between gap-3">
           <p className="text-sm tracking-[0.06em]" style={{ color: visual.accent }}>
             抽签进行中
           </p>
@@ -55,7 +55,7 @@ export default function ShakeStage({ theme, mode, showPop, onMediaComplete }: Sh
           )}
         </div>
       )}
-      <div className={`${t.stage} h-auto md:h-auto`}>
+      <div className={`${t.stage} min-h-0 flex-1`}>
         {theme === "pixel" && (
           <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(163,230,53,0.08)_1px,transparent_1px)] bg-[length:100%_22px] opacity-35" />
         )}
@@ -113,7 +113,7 @@ export default function ShakeStage({ theme, mode, showPop, onMediaComplete }: Sh
           />
         )}
       </div>
-      {theme === "stationery" && <p className="mt-3 text-center text-xs text-[#7a6b5e]">请稍等，签文正在出现。</p>}
+      {theme === "stationery" && <p className="mt-2 shrink-0 text-center text-xs text-[#7a6b5e]">请稍等，签文正在出现。</p>}
     </section>
   );
 }
