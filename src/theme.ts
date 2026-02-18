@@ -42,8 +42,7 @@ export const THEMES: Record<ThemeKey, ThemeTokens> = {
   stationery: {
     appBg:
       "bg-gradient-to-b from-[#fbf7f1] via-[#f4ede4] to-[#ece4da] text-zinc-900 bg-[radial-gradient(circle_at_16%_12%,rgba(176,165,156,0.14),transparent_34%),radial-gradient(circle_at_84%_4%,rgba(193,172,167,0.12),transparent_30%)]",
-    panel:
-      "relative overflow-hidden rounded-lg border border-[#d9cec1]/65 bg-[#fdf9f2]/92 shadow-[0_12px_28px_rgba(112,99,88,0.12)] backdrop-blur",
+    panel: "relative overflow-hidden",
     title: "font-semibold tracking-tight text-2xl md:text-3xl text-[#4e4338]",
     sub: "text-[#6c5e52] text-sm md:text-base",
     btnPrimary:
@@ -51,8 +50,7 @@ export const THEMES: Record<ThemeKey, ThemeTokens> = {
     btnSecondary:
       "h-12 rounded-lg border border-[#d8ccbf]/70 bg-white/88 text-[#54493e] hover:bg-[#f7f1e8] active:translate-y-[1px] transition shadow-[0_1px_0_rgba(0,0,0,0.05)]",
     chip: "inline-flex items-center gap-2 rounded-lg border border-[#d8ccc0]/70 bg-white/92 px-3 py-1 text-xs text-[#645748]",
-    stage:
-      "h-[clamp(180px,40dvh,360px)] rounded-lg border border-[#d9cec1]/60 bg-[linear-gradient(160deg,#fdf8f1,#f1e8de)] flex items-center justify-center relative overflow-hidden shadow-[inset_0_0_0_1px_rgba(255,255,255,0.78)]",
+    stage: "relative flex min-h-0 flex-1 items-center justify-center overflow-hidden",
     card: "rounded-lg border border-[#d9cec1]/60 bg-white/92 p-4 md:p-5 shadow-[0_10px_24px_rgba(112,99,88,0.12)]",
     mono: "",
     toggleWrap: "rounded-lg border border-[#d8ccc0]/70 bg-white/92 p-1 shadow-[0_3px_12px_rgba(112,99,88,0.1)]",

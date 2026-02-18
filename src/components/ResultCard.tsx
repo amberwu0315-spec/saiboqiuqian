@@ -18,8 +18,8 @@ export default function ResultCard({ theme, result, drawAt, onReroll, onSwitchMo
   return (
     <>
       <section className={theme === "pixel" ? `${t.panel} flex min-h-0 flex-1 flex-col p-3 sm:p-4 md:p-5` : "flex min-h-0 flex-1 flex-col"}>
-        <div className="flex min-h-0 flex-1 items-center justify-center pt-0.5">
-          <div className={theme === "pixel" ? "mx-auto w-full max-w-[260px] aspect-[9/16]" : "mx-auto w-full max-w-[500px]"}>
+        <div className="flex min-h-0 flex-1 items-center justify-center">
+          <div className={theme === "pixel" ? "mx-auto h-full w-full max-w-[330px] aspect-[9/16]" : "mx-auto h-full w-full max-w-[620px]"}>
             <FortuneCardPreview theme={theme} payload={payload} drawAt={drawAt} />
           </div>
         </div>

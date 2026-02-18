@@ -37,9 +37,9 @@ export default function ShakeStage({ theme, mode, showPop, onMediaComplete }: Sh
   }, [theme, onMediaComplete, activeVideoSource]);
 
   return (
-    <section className={`${t.panel} flex min-h-0 flex-1 flex-col p-3 sm:p-4 md:p-5`}>
+    <section className={`${t.panel} flex min-h-0 flex-1 flex-col`}>
       {theme === "stationery" && (
-        <div className="mb-2 flex shrink-0 items-center justify-between gap-3">
+        <div className="mb-2 flex shrink-0 items-center justify-between gap-3 px-1">
           <p className="text-sm tracking-[0.06em]" style={{ color: visual.accent }}>
             抽签进行中
           </p>
@@ -59,15 +59,12 @@ export default function ShakeStage({ theme, mode, showPop, onMediaComplete }: Sh
         {theme === "pixel" && (
           <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(163,230,53,0.08)_1px,transparent_1px)] bg-[length:100%_22px] opacity-35" />
         )}
-        {theme === "stationery" && (
-          <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(181,169,157,0.18)_1px,transparent_1px)] bg-[length:100%_32px] opacity-20" />
-        )}
 
         <div
           className={`${
             theme === "pixel"
               ? "border border-zinc-100/15 bg-zinc-900/35 p-3"
-              : "w-full p-2 md:p-3"
+              : "h-full w-full p-0"
           }`}
         >
           {theme === "pixel" ? (
@@ -75,7 +72,7 @@ export default function ShakeStage({ theme, mode, showPop, onMediaComplete }: Sh
           ) : useStationeryVideo ? (
             <video
               key={activeVideoSource?.src}
-              className="block h-auto w-full rounded-lg bg-[#f7efe6] object-contain"
+              className="block h-full w-full rounded-lg bg-[#f7efe6] object-contain"
               autoPlay
               muted
               playsInline
@@ -93,7 +90,7 @@ export default function ShakeStage({ theme, mode, showPop, onMediaComplete }: Sh
               src={fallbackImageSrc}
               alt=""
               aria-hidden="true"
-              className="block h-auto w-full rounded-lg bg-[#f7efe6] object-contain"
+              className="block h-full w-full rounded-lg bg-[#f7efe6] object-contain"
               loading="eager"
               decoding="async"
               onError={() => setFallbackImageIndex((idx) => (idx < visual.readyImageSources.length ? idx + 1 : idx))}

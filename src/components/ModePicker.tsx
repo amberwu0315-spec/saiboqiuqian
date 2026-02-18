@@ -214,29 +214,13 @@ export default function ModePicker({ theme, onChooseMode }: ModePickerProps) {
   };
 
   return (
-    <section className="relative flex min-h-0 flex-1 flex-col justify-center px-0.5 pb-1 pt-0.5">
-      <div
-        aria-hidden="true"
-        className={`pointer-events-none absolute -right-12 -top-16 h-44 w-44 rounded-full ${
-          isPixel
-            ? "bg-[radial-gradient(circle,_rgba(132,204,22,0.18)_0%,rgba(132,204,22,0)_72%)]"
-            : "bg-[radial-gradient(circle,_rgba(224,198,174,0.5)_0%,rgba(224,198,174,0)_72%)]"
-        }`}
-      />
-      <div
-        aria-hidden="true"
-        className={`pointer-events-none absolute -bottom-20 -left-12 h-40 w-40 rounded-full ${
-          isPixel
-            ? "bg-[radial-gradient(circle,_rgba(34,211,238,0.16)_0%,rgba(34,211,238,0)_74%)]"
-            : "bg-[radial-gradient(circle,_rgba(197,170,150,0.36)_0%,rgba(197,170,150,0)_74%)]"
-        }`}
-      />
+    <section className="relative flex min-h-0 flex-1 flex-col px-0.5">
       <div
         ref={trackRef}
-        className="relative flex min-h-0 flex-1 snap-x snap-mandatory items-center gap-3 overflow-x-auto py-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="relative flex min-h-0 flex-1 snap-x snap-mandatory items-center gap-3 overflow-x-auto py-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         style={{
-          paddingLeft: "calc((100% - min(62vw, 320px)) / 2)",
-          paddingRight: "calc((100% - min(62vw, 320px)) / 2)"
+          paddingLeft: "calc((100% - min(74vw, 380px)) / 2)",
+          paddingRight: "calc((100% - min(74vw, 380px)) / 2)"
         }}
         onScroll={handleTrackScroll}
         onPointerDown={markUserInteraction}
@@ -253,9 +237,9 @@ export default function ModePicker({ theme, onChooseMode }: ModePickerProps) {
                 cardRefs.current[index] = element;
               }}
               type="button"
-              className={`relative h-auto w-[62vw] min-w-[170px] max-w-[320px] max-h-[45dvh] shrink-0 snap-center overflow-hidden text-left transition-all duration-500 hover:brightness-95 active:translate-y-[1px] sm:min-w-[210px] sm:max-h-[50dvh] md:w-[300px] md:max-h-[56dvh] ${
+              className={`relative h-auto w-[74vw] min-w-[230px] max-w-[380px] max-h-[min(100%,58dvh)] shrink-0 snap-center overflow-hidden text-left transition-all duration-500 hover:brightness-95 active:translate-y-[1px] sm:min-w-[250px] sm:max-h-[min(100%,62dvh)] md:w-[340px] md:max-h-[min(100%,68dvh)] ${
                 isPixel ? `${t.mono} rounded-[12px] border-[4px]` : "rounded-[12px] border-[4px]"
-              } ${isActive ? "scale-[1.01] opacity-100" : "scale-[0.95] opacity-90"}`}
+              } ${isActive ? "scale-[1.01] opacity-100" : "scale-[0.97] opacity-92"}`}
               style={{
                 aspectRatio: "2 / 3",
                 background: isRandom ? "linear-gradient(140deg,#65b7ff,#2f6fcc)" : undefined,
@@ -278,7 +262,7 @@ export default function ModePicker({ theme, onChooseMode }: ModePickerProps) {
           );
         })}
       </div>
-      <div className="mt-1 flex shrink-0 items-center justify-center gap-2">
+      <div className="mt-2.5 flex shrink-0 items-center justify-center gap-2">
         {modeItems.map((item, index) => {
           const isActive = activeIndex === index;
           return (

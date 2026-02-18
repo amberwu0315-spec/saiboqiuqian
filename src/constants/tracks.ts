@@ -41,7 +41,7 @@ export const TRACK_VISUALS: Record<Track, TrackVisualConfig> = {
     pickerHint: "判断 / 时机",
     accent: "#E37970",
     accentHover: "#D66C63",
-    softSurface: "rgba(227,121,112,0.09)",
+    softSurface: "#f3ddd6",
     shadow: "rgba(227,121,112,0.18)",
     readyImageSources: [
       withBase("/images/ready-trad.jpg.png"),
@@ -63,7 +63,7 @@ export const TRACK_VISUALS: Record<Track, TrackVisualConfig> = {
     pickerHint: "状态 / 允许",
     accent: "#9E7A63",
     accentHover: "#8B6B56",
-    softSurface: "rgba(158,122,99,0.09)",
+    softSurface: "#efe3d9",
     shadow: "rgba(158,122,99,0.18)",
     readyImageSources: [
       withBase("/images/ready-mmm.jpg.png"),
@@ -85,7 +85,7 @@ export const TRACK_VISUALS: Record<Track, TrackVisualConfig> = {
     pickerHint: "方向 / 决断",
     accent: "#E79A4A",
     accentHover: "#D98936",
-    softSurface: "rgba(231,154,74,0.09)",
+    softSurface: "#f4e5d3",
     shadow: "rgba(231,154,74,0.18)",
     readyImageSources: [
       withBase("/images/ready-yesno.jpg.png"),

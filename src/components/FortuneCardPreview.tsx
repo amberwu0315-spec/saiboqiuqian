@@ -35,8 +35,8 @@ export function PixelCardPreview({ payload, drawAt }: { payload: ShareCardPayloa
 export function StationeryCardPreview({ payload, drawAt }: { payload: ShareCardPayload; drawAt: Date }) {
   return (
     <div
-      className="relative overflow-hidden rounded-lg border border-[#d9cdc0]/60 px-[clamp(0.95rem,2dvh,1.8rem)] pb-[clamp(0.95rem,2.2dvh,1.8rem)] pt-[clamp(1rem,2.4dvh,2rem)] shadow-[0_12px_26px_rgba(112,99,88,0.12)]"
-      style={{ background: `linear-gradient(180deg,#fdf8f2,${payload.surfaceTint})` }}
+      className="relative flex h-full flex-col overflow-hidden rounded-lg border border-[#d9cdc0]/60 px-[clamp(0.95rem,2dvh,1.8rem)] pb-[clamp(0.95rem,2.2dvh,1.8rem)] pt-[clamp(1rem,2.4dvh,2rem)] shadow-[0_12px_26px_rgba(112,99,88,0.12)]"
+      style={{ background: `linear-gradient(180deg,#fffaf4 0%,#f7eee4 52%,${payload.surfaceTint} 100%)` }}
     >
       <p className="text-center text-xs tracking-[0.08em] text-[#8b7a6d]">{payload.modeLabel}</p>
       <h3
